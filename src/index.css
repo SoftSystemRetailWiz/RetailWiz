@@ -1,0 +1,151 @@
+.modal-main-div {
+    background-color: #f2f2f2;
+    width: 800px;
+    height: 550px;
+    border-radius: 10px;
+    padding: 15px;
+}
+.modal-table-thead-tr>.modal-table-thead-tr-th{
+    background-color: light;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .modal-main-div {
+        width: 90%; /* Adjust width to fit smaller screens */
+        height: auto; /* Allow height to adjust based on content */
+        padding: 10px; /* Reduced padding for smaller devices */
+    }
+
+    .modal-subdiv-1 {
+        flex-direction: column; /* Stack buttons vertically */
+        align-items: center;
+    }
+
+    .modal-subdiv-1-btn {
+        margin: 5px 0; /* Add spacing between buttons */
+    }
+
+    .modal-subdiv-2 > input,
+    .noOfBarCode {
+        width: 100%; /* Full width input for better usability */
+        margin-bottom: 10px; /* Add space between elements */
+    }
+
+    .modal-subdiv-3 {
+        height: auto; /* Allow the table to grow naturally */
+        overflow-y: auto; /* Keep scroll functionality if content exceeds view */
+    }
+
+    .tooltip-container .tooltip-text {
+        width: auto; /* Adjust tooltip size for mobile readability */
+        white-space: nowrap; /* Prevent text wrapping */
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-main-div {
+        width: 95%;
+        padding: 8px;
+    }
+
+    .modal-subdiv-2 > input,
+    .noOfBarCode {
+        font-size: 14px; /* Adjust font size for smaller screens */
+    }
+
+    .modal-subdiv-3 table {
+        font-size: 12px; /* Smaller font size for compact view */
+    }
+
+    .tooltip-container .tooltip-text {
+        font-size: 12px; /* Smaller tooltip text */
+        padding: 3px; /* Compact padding */
+    }
+}
+
+.modal-table-thead-tr-th {
+    top: 0;
+    position: sticky;
+    background-color: rgba(169, 169, 169, 0.9);
+}
+
+.modal-subdiv-1 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-subdiv-1-btn {
+    border: none;
+    color: rgba(121, 106, 106, 0.9);
+    cursor: pointer; /* Add pointer cursor for better UX */
+}
+
+.modal-subdiv-2 > input,
+.noOfBarCode {
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    padding: 3px;
+}
+
+.noOfBarCode {
+    width: 120px;
+    padding-left: 10px;
+    initial-value: 0;
+}
+
+.modal-subdiv-3 {
+    height: 440px;
+    overflow-y: auto;
+}
+
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-container .tooltip-text {
+    visibility: hidden;
+    width: 100px;
+    background-color: rgb(240, 238, 238);
+    color: #333;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    margin-top: 10px;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.9s;
+}
+
+.tooltip-container:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+
+/* sales > invoice  */
+
+.invoice-items-inputs> input{
+    width: 60px;
+    border: none;
+}
+
+
+/* For Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* For Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+
