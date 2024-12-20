@@ -18,6 +18,7 @@ import Invoice from '../components/Sales/Invoice'
 import DateTime from "./datetime/datetime";
 import { div } from "framer-motion/client";
 import EmployeeData from "./forms/EmployeeData";
+import Outslip from "../components/Outslip";
 
 
 // Dynamic Icon Component
@@ -39,6 +40,7 @@ export default function Sidebar({ children }) {
   const isDashboard =location.pathname === '/dashboard'
   const isInventoryreport = location.pathname ==='/inventory-report'
   const ispurchaseOrder = location.pathname ==='/purchase/POs'
+  const isOutSlip= location.pathname ==='/OutSlip'
 
 
   // Sales
@@ -232,6 +234,9 @@ export default function Sidebar({ children }) {
         )}
         {isEmployeeDataForm&&(
           <EmployeeData/>
+        )}
+        {isOutSlip&&(
+          <Outslip/>
         )}
 
 
