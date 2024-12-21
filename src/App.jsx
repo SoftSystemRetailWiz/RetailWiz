@@ -178,10 +178,10 @@ function App() {
           />
           <SidebarItem
           icon={<Replace size={20}/>}
-          text='Json-Table'
+          text='Json-Form'
           active={activeItem === 'Json-Table'}
           onClick={()=> handleItemClick('Json-Table')}
-          link='/json-table'
+          link='/json-form'
 
           />
 
@@ -221,7 +221,7 @@ function App() {
         <Route path='/List-View/Customer-List'/>
         <Route path='/List-View/Supplier-List'/>
         <Route path='/ipinfo'/>
-        <Route path= '/json-table'/>
+        <Route path= '/json-form'/>
         <Route path='/EmployeeDataForm'/>
         {/* Add more routes as needed */}
       </Routes>

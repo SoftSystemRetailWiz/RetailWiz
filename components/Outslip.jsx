@@ -172,29 +172,52 @@ function Outslip() {
             <div className="row">
                 <div className="col-12 col-md-12 mb-1">
                 <span className="d-flex" style={{ marginLeft: "20px" }}>
-                <b> OutSlip </b>
+                
                 </span>
                     <div className='col-3 col-md-3 mt-3 '>
                         <h6 style={{ color: '#4285f4', marginLeft: "20px"  }}>{customerName}</h6>
                     </div>
                         <div className='d-flex gap-2 flex-column flex-md-row'>
-                        <div class="form-floating mb-3">
-    <input class="form-control" id="from" type="text" placeholder="From" />
-    <label for="from">From</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" id="to" type="text" placeholder="To" />
-                        <label for="to">To</label>
-                    </div>
+                            <div class="form-floating mb-3"
+                            
+                            >
+                                <input 
+                                class="form-control" 
+                                id="from" 
+                                type="text" 
+                                placeholder="From" 
+                                style={{
+                                    border: 'none',
+                                    borderRadius:'0px',
+                                    borderBottom: '1px solid lightgrey',
+                                }}
+                                />
+                                <label for="from">From</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input 
+                                class="form-control" 
+                                id="to" 
+                                type="text" 
+                                placeholder="To" 
+                                style={{
+                                    border: 'none',
+                                    borderRadius:'0px',
+                                    borderBottom: '1px solid lightgrey',
+                                }}
+                                />
+                                <label for="to">To</label>
+                            </div>
 
                             <div>
-                            <input 
-                            className='form-control'  
-                            type="date" 
-                            style={{
-                                height: '60px',
-                            }}
-                            />
+                                <input 
+                                className='form-control'  
+                                type="date" 
+                                style={{
+                                    height: '60px',
+                                    border: 'none',
+                                }}
+                                />
                             </div>
                         </div>
                     <div className="d-flex flex-column flex-md-row align-items-center">
@@ -361,13 +384,10 @@ function Outslip() {
                                             borderBottom: '1px solid grey',
                                         }}
                                     >
-                                        <th style={{ backgroundColor: 'rgb(232,233,233)' }}>Code</th>
-                                        <th style={{ backgroundColor: 'rgb(232,233,233)' }}>Product</th>
+                                        <th style={{ backgroundColor: 'rgb(232,233,233)' }}>Alu</th>
+                                        <th style={{ backgroundColor: 'rgb(232,233,233)' }}>Item Description</th>
                                         <th style={{ backgroundColor: 'rgb(232,233,233)' }}>Qty</th>
-                                        <th style={{ backgroundColor: 'rgb(232,233,233)' }}>Rate</th>
-                                        <th style={{ backgroundColor: 'rgb(232,233,233)' }}>Disc</th>
-                                        <th style={{ backgroundColor: 'rgb(232,233,233)' }}>%Disc</th>
-                                        <th style={{ backgroundColor: 'rgb(232,233,233)' }}>Amount</th>
+                                        <th style={{ backgroundColor: 'rgb(232,233,233)' }}>Lot</th>
                                         <th style={{ backgroundColor: 'rgb(232,233,233)' }}></th>
                                     </tr>
                                 </thead>
@@ -383,27 +403,6 @@ function Outslip() {
                                                 />
                                             </td>
                                             <td>{item.rate}</td>
-                                            <td className='invoice-items-inputs'>
-                                                <input
-                                                    type="number"
-                                                    value={item.discount}
-                                                    onChange={(e) => handleDiscountChange(index, e.target.value)}
-                                                />
-                                            </td>
-                                            <td className='invoice-items-inputs'>
-                                                <input
-                                                    type="number"
-                                                    value={item.percentDiscount}
-                                                    onChange={(e) => handlePercentDiscountChange(index, e.target.value)}
-                                                />
-                                            </td>
-                                            <td className='invoice-items-inputs'>
-                                                <input
-                                                    type="text"
-                                                    value={`${(item.qty * item.rate) - item.discount}`}
-                                                    readOnly
-                                                />
-                                            </td>
                                             <td>
                                                 <button className='btn btn-outline-danger btn-sm'
                                                     onClick={() => handleRemoveItem(index)}
@@ -421,6 +420,17 @@ function Outslip() {
                                     ))}
                                 </tbody>
                             </table>
+                            <div className=' d-flex'
+                            style={{
+                                position: 'absolute',
+                                bottom: 10,
+                                backgroundColor: 'rgb(232,233,233)',
+                                padding: '10px',
+                                borderTop: '1px solid lightgrey',
+                            }}
+                            >
+                               <span>Total Units: {totalQuantity} </span><br />
+                            </div>
                         </div>
                     </div>
                 </div>

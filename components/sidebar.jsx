@@ -56,7 +56,7 @@ export default function Sidebar({ children }) {
   // Ip Address and Location
 
   const isIpaddressLocation= location.pathname=== '/ipinfo'
-  const isJsonTable= location.pathname=== '/json-table'
+  const isJsonTable= location.pathname=== '/json-form'
 
   
   // Employee dataForm
@@ -142,7 +142,8 @@ export default function Sidebar({ children }) {
           padding: '10px',
           paddingLeft: isExpanded? '10px': '60px',
         }}
-        >{isExpanded? <div className="spacer">
+        >{isExpanded? 
+        <div className="spacer col-sm-0">
           {isSaleInvoice&& (
             <>
             <h5 className="ms-4"
@@ -151,9 +152,17 @@ export default function Sidebar({ children }) {
               color: '#4285f4'
             }}
             >Sale Invoice</h5>
-           
             </>
+            
           )}
+          {isOutSlip && (
+              <h5 className="ms-4"
+              style={{
+                fontWeight: 'bold',
+                color: '#4285f4'
+              }}
+              >OutSlip</h5>
+            )}
         </div>
         :
         <div className="d-flex ">
