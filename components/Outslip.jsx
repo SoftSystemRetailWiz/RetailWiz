@@ -170,13 +170,33 @@ function Outslip() {
     return (
         <div className="container-fluid mt-3">
             <div className="row">
-                <div className="col-12 col-md-9 mb-1">
+                <div className="col-12 col-md-12 mb-1">
                 <span className="d-flex" style={{ marginLeft: "20px" }}>
-                <b>Sales &nbsp; / &nbsp; Sale Invoice</b>
+                <b> OutSlip </b>
                 </span>
                     <div className='col-3 col-md-3 mt-3 '>
                         <h6 style={{ color: '#4285f4', marginLeft: "20px"  }}>{customerName}</h6>
                     </div>
+                        <div className='d-flex gap-2 flex-column flex-md-row'>
+                        <div class="form-floating mb-3">
+    <input class="form-control" id="from" type="text" placeholder="From" />
+    <label for="from">From</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" id="to" type="text" placeholder="To" />
+                        <label for="to">To</label>
+                    </div>
+
+                            <div>
+                            <input 
+                            className='form-control'  
+                            type="date" 
+                            style={{
+                                height: '60px',
+                            }}
+                            />
+                            </div>
+                        </div>
                     <div className="d-flex flex-column flex-md-row align-items-center">
                         <input
                             type="text"
