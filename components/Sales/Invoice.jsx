@@ -455,30 +455,38 @@ function Invoice() {
                         </div>
                         <div>
                         {showDropup && (
-                            <div className="dropup" style={{ position: 'absolute', zIndex: 10}}>
-                                <div className="bg-white border rounded p-3" style={{ width: '300px' }}>
-                                <button className='btn btn-outline-danger btn-sm'
-                                    onClick={handleCloseDropUp}
-                                    style={{
-                                        border: 'none',
-                                        height: '27px',
-                                        width: '27px',
-                                        padding: '0'
-                                    }}
+                            <div className="dropup" style={{ position: 'absolute', zIndex: 10 }}>
+                                <div
+                                    className="bg-white border rounded p-3 col-10 col-sm-8 col-md-6 col-lg-4 mx-auto"
+                                    style={{ minWidth: '250px' }} // Set a min-width for better control on small screens
                                 >
-                                    <CircleX />
-                                </button>
-                                    <h6>Select Options</h6>
-                                    <div className="mb-2">
-                                        <label htmlFor="option1">Option 1</label>
+                                    <div style={{ width: '100%', alignItems: 'flex-end', display: 'flex' }}>
+                                        <button
+                                            className="btn btn-outline-danger btn-sm"
+                                            onClick={handleCloseDropUp}
+                                            style={{
+                                                border: 'none',
+                                                height: '27px',
+                                                width: '27px',
+                                                padding: '0',
+                                                marginLeft: 'auto',
+                                            }}
+                                        >
+                                            <CircleX size="18px" />
+                                        </button>
+                                    </div>
+
+                                    <h6 className="mb-3">Select Options</h6>
+                                    <div className="mb-3">
+                                        <label htmlFor="option1" className="form-label">Option 1</label>
                                         <select id="option1" className="form-select">
                                             <option value="">Select...</option>
                                             <option value="1">Option 1</option>
                                             <option value="2">Option 2</option>
                                         </select>
                                     </div>
-                                    <div className="mb-2">
-                                        <label htmlFor="option2">Option 2</label>
+                                    <div className="mb-3">
+                                        <label htmlFor="option2" className="form-label">Option 2</label>
                                         <select id="option2" className="form-select">
                                             <option value="">Select...</option>
                                             <option value="1">Option 1</option>
@@ -489,6 +497,7 @@ function Invoice() {
                                 </div>
                             </div>
                         )}
+
                         </div>
                         <div
                             className="d-flex justify-content-between mt-3"
