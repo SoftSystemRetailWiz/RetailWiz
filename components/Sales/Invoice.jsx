@@ -27,29 +27,28 @@ function Invoice() {
     const handleCloseDropUp=()=> setShowDropUp(false)
                             
     const serv_id = localStorage.getItem('serv_id');
-    const fetchInventorydata = async () => {
-        if (!localStorage.getItem('inventory')) {
-            const result = await fetchData(
-                'inventory_rep',
-                { paremeter: 'serv_id', value: serv_id },
-                'loginResponse',
-                'inventory_repResult'
-            );
-            if (result) {
-                const inventoryData = JSON.parse(result);
-                localStorage.setItem('inventory', JSON.stringify(inventoryData));
-                setInventory(inventoryData);
-            }
-        } else {
-            const storedInventoryData = JSON.parse(localStorage.getItem('inventory'));
-            setInventory(storedInventoryData);
-        }
-    };
+    const fetchInventoryData = async () => {
+         if (!localStorage.getItem("inventory")) {
+           const result = await fetchData('inventory_rep', [{ parameter: 'serv_id', value: serv_id }], 'inventory_repResponse', 'inventory_repResult');
+           if (result) {
+             const inventoryData = JSON.parse(result);
+             localStorage.setItem("inventory", JSON.stringify(inventoryData)); // Save to localStorage
+             setInventory(inventoryData);
+           }
+         } else {
+           const storedInventory = JSON.parse(localStorage.getItem("inventory"));
+           setInventory(storedInventory);
+         }
+       };
 
 
      const fetchCustomerData = async () => {
             if (!localStorage.getItem("Customer")) {
-                const result = await fetchData('customer_list', [{ parameter: 'serv_id', value: serv_id }], 'customer_listResponse', 'customer_listResult');
+                const result = await fetchData(
+                    'customer_list', 
+                    [{ parameter: 'serv_id', value: serv_id }], 
+                    'customer_listResponse', 
+                    'customer_listResult');
                 if (result) {
                     const customerData = JSON.parse(result);
                     localStorage.setItem("Customer", JSON.stringify(customerData)); // Save to localStorage
@@ -61,13 +60,13 @@ function Invoice() {
             }
         };
 
-    useEffect(() => {
-        fetchInventorydata();
-    }, []);
-    useEffect(() => {
-        fetchCustomerData();
-    }, []);
-
+        useEffect(() => {
+            fetchCustomerData();
+        }, []);
+        
+        useEffect(() => {
+            fetchInventoryData();
+        }, []);
     useEffect(() => {
         let qty = 0;
         let discount = 0;
