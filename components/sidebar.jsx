@@ -352,7 +352,7 @@ export function SidebarItem({
                 {item.text}
 
               {isSubDropdown && (
-                <DynamicIcons iconName={OpenSublistIndex? "ChevronUp" : "ChevronDown"} size={15} color={'blue'} />
+                <DynamicIcons  iconName={OpenSublistIndex === index? "ChevronUp" : "ChevronDown"} size={15} color={'blue'} />
               )}
               </span>
 
