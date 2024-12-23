@@ -281,7 +281,7 @@ function Outslip() {
                                     padding: '20px',
                                     overflowY: 'auto',
                                 }}
-                            >
+                            >.
                                 <input
                                     className="form-control mb-2"
                                     type="text"
