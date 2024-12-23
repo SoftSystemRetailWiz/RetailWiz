@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Sidebar, { SidebarItem } from '../components/sidebar.jsx';
-import { DatabaseZap, Landmark, LayoutDashboard, ListOrdered, ListTree, MapPinned, PercentIcon, Replace, ShoppingCart, UserRoundPlus } from 'lucide-react';
+import { DatabaseZap, Landmark, LayoutDashboard, ListOrdered, ListTree, MapPinned, PercentIcon, Replace, SendHorizontal, ShoppingCart, UserRoundPlus } from 'lucide-react';
 
 // Import your page components
 
@@ -178,10 +178,10 @@ function App() {
           />
           <SidebarItem
           icon={<Replace size={20}/>}
-          text='Json-Table'
+          text='Json-Form'
           active={activeItem === 'Json-Table'}
           onClick={()=> handleItemClick('Json-Table')}
-          link='/json-table'
+          link='/json-form'
 
           />
 
@@ -191,6 +191,15 @@ function App() {
           active={activeItem === 'Employee-Data'}
           onClick={()=>handleItemClick('Employee-Data')}
           link={'/EmployeeDataForm'}
+          />
+
+          <SidebarItem
+          icon={<SendHorizontal size={20}/>}
+          text={'OutSlip'}
+          active={activeItem === 'OutSlip'}
+          onClick={()=> handleItemClick('OutSlip')}
+          link={'/OutSlip'}
+          
           />
         </Sidebar>
 
@@ -203,13 +212,16 @@ function App() {
         <Route path='/purchase/POs'/>
         {/* sales */}
         <Route path='/sale/saleInvoice'/>
+        {/* OutSlip */}
+        <Route path='/OutSlip'/>
+        {/* Purchase */}
         {/* List View */}
 
         <Route path='/List-View/Inventory-List'/>
         <Route path='/List-View/Customer-List'/>
         <Route path='/List-View/Supplier-List'/>
         <Route path='/ipinfo'/>
-        <Route path= '/json-table'/>
+        <Route path= '/json-form'/>
         <Route path='/EmployeeDataForm'/>
         {/* Add more routes as needed */}
       </Routes>

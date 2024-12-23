@@ -18,6 +18,7 @@ import Invoice from '../components/Sales/Invoice'
 import DateTime from "./datetime/datetime";
 import { div } from "framer-motion/client";
 import EmployeeData from "./forms/EmployeeData";
+import Outslip from "../components/Outslip";
 
 
 // Dynamic Icon Component
@@ -39,6 +40,7 @@ export default function Sidebar({ children }) {
   const isDashboard =location.pathname === '/dashboard'
   const isInventoryreport = location.pathname ==='/inventory-report'
   const ispurchaseOrder = location.pathname ==='/purchase/POs'
+  const isOutSlip= location.pathname ==='/OutSlip'
 
 
   // Sales
@@ -54,7 +56,7 @@ export default function Sidebar({ children }) {
   // Ip Address and Location
 
   const isIpaddressLocation= location.pathname=== '/ipinfo'
-  const isJsonTable= location.pathname=== '/json-table'
+  const isJsonTable= location.pathname=== '/json-form'
 
   
   // Employee dataForm
@@ -140,7 +142,8 @@ export default function Sidebar({ children }) {
           padding: '10px',
           paddingLeft: isExpanded? '10px': '60px',
         }}
-        >{isExpanded? <div className="spacer">
+        >{isExpanded? 
+        <div className="spacer col-sm-0">
           {isSaleInvoice&& (
             <>
             <h5 className="ms-4"
@@ -149,9 +152,17 @@ export default function Sidebar({ children }) {
               color: '#4285f4'
             }}
             >Sale Invoice</h5>
-           
             </>
+            
           )}
+          {isOutSlip && (
+              <h5 className="ms-4"
+              style={{
+                fontWeight: 'bold',
+                color: '#4285f4'
+              }}
+              >OutSlip</h5>
+            )}
         </div>
         :
         <div className="d-flex ">
@@ -232,6 +243,9 @@ export default function Sidebar({ children }) {
         )}
         {isEmployeeDataForm&&(
           <EmployeeData/>
+        )}
+        {isOutSlip&&(
+          <Outslip/>
         )}
 
 
