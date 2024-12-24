@@ -136,29 +136,29 @@ function Activity() {
                                             <td className='d-flex gap-3'>
                                                 <div className='tooltip-container'>
                                                     <button
-                                                        className="btn btn-outline-primary btn-sm mt-3 mb-2"
-                                                        style={{ maxHeight: '35px', width: '35px' }}
+                                                        className="btn btn-outline-primary btn-sm "
+                                                        
                                                          // Open Modal on click
                                                     >
-                                                        DO
+                                                        <small>DO</small>
                                                     </button>
-                                                    <div className="tooltip-text">Do</div>
+                                                    <div className="tooltip-text">DO</div>
                                                 </div>
 
                                                 <div className='tooltip-container'>
                                                     <button
-                                                        className="btn btn-outline-danger btn-sm mt-3 mb-2"
-                                                        style={{ maxHeight: '35px', width: '35px' }}
+                                                        className="btn btn-outline-danger btn-sm"
+                                                        
                                                     >
-                                                        <FilePenLine size={'16px'} />
+                                                        <FilePenLine size={'12px'} />
                                                     </button>
                                                     <div className="tooltip-text">Modify</div>
                                                 </div>
 
                                                 <div className='tooltip-container'>
                                                     <button
-                                                        className="btn btn-outline-success btn-sm mt-3 mb-2"
-                                                        style={{ maxHeight: '35px', width: '35px' }}
+                                                        className="btn btn-outline-success btn-sm "
+                                                        
                                                         onClick={openModal} 
                                                     >
                                                         <Printer size={'16px'} />
@@ -194,17 +194,17 @@ function Activity() {
                     <div className="modal-content" 
                     style={{ 
                         background: 'white', 
-                        padding: '20px', 
+                        padding: '10px', 
                         maxWidth: '900px', 
                         margin: 'auto', 
-                        marginTop: '100px' 
+                        marginTop: '60px' 
                         }}>
                     <div className='tooltip-container'
-                    style={{
-                        width: '30px',
-                    }}
+                        style={{
+                            width: '30px',
+                        }}
                     >
-                    <button
+                        <button
                             className="btn btn-outline-danger btn-sm"
                             onClick={closeModal}  // Close the modal
                             style={{
@@ -216,9 +216,51 @@ function Activity() {
                         </button>
                         <div className="tooltip-text">Close</div>
                     </div>
-                        <h4>Modal Title</h4>
-                        <p>Content goes here...</p>
+                    <div className='d-flex gap-3 mt-2 mb-2 ms-3'> 
+                        <div>
+                            <button
+                            className='btn btn-outline-primary btn-sm'
+                            style={{
+                                border: 'none',
+                                borderBottom: '1px solid lightgrey',
+                                borderLeft: '1px solid lightgrey',
+                            }}
+                            >
+                                A4  
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                            className='btn btn-outline-primary btn-sm'
+                            style={{
+                                border: 'none',
+                                borderBottom: '1px solid lightgrey',
+                                borderLeft: '1px solid lightgrey',
+                            }}
+                            >
+                                A5
+                            </button>
+                        </div>
+                        <div>
+                            <button
+                            className='btn btn-outline-primary btn-sm'
+                            style={{
+                                border: 'none',
+                                borderBottom: '1px solid lightgrey',
+                                borderLeft: '1px solid lightgrey',
+                            }}
+                            >
+                                Thermal
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+
+                        <h4>Modal</h4>
+                        <p>Content</p>
                         
+                    </div>
                     </div>
                 </div>
             )}
