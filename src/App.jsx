@@ -75,7 +75,7 @@ function App() {
               { text: 'Sales Order', icon: 'NotepadTextDashed' },
               { text: 'Delivery Notes', icon: 'NotepadTextDashed' },
               { text: 'Sales Invoice', icon: 'NotepadTextDashed' ,link: '/sale/saleInvoice'},
-              { text: 'Sales Activity', icon: 'NotepadTextDashed' },
+              { text: 'Sales Activity', icon: 'NotepadTextDashed', link: '/sale/salesActivity' },
             ]}
             isDropdown={true}
           />
@@ -212,6 +212,7 @@ function App() {
         <Route path='/purchase/POs'/>
         {/* sales */}
         <Route path='/sale/saleInvoice'/>
+        <Route path='/sale/salesActivity'/>
         {/* OutSlip */}
         <Route path='/OutSlip'/>
         {/* Purchase */}

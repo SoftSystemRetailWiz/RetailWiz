@@ -19,6 +19,7 @@ import DateTime from "./datetime/datetime";
 import { div } from "framer-motion/client";
 import EmployeeData from "./forms/EmployeeData";
 import Outslip from "../components/Outslip";
+import Activity from "./Sales/SalesActivity/Activity";
 
 
 // Dynamic Icon Component
@@ -46,6 +47,7 @@ export default function Sidebar({ children }) {
   // Sales
 
   const isSaleInvoice= location.pathname === '/sale/saleInvoice'
+  const isSaleActivity= location.pathname === '/sale/salesActivity'
 
   // list View
   const isListViewInventory= location.pathname ==='/List-View/Inventory-List'
@@ -246,6 +248,9 @@ export default function Sidebar({ children }) {
         )}
         {isOutSlip&&(
           <Outslip/>
+        )}
+        {isSaleActivity&&(
+          <Activity/>
         )}
 
 
