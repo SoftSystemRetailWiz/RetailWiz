@@ -79,13 +79,17 @@ function Activity() {
                         </div>
 
                         {/* Button to trigger data fetch */}
+                        <div className='tooltip-container'>
                         <button
-                            className="btn btn-primary btn-sm mt-3"
+                            className="btn btn-primary btn-sm mt-3 modal-subdiv-1-btn"
                             style={{ maxHeight: '35px', width: '35px' }}
                             onClick={() => fetch_Data(startDate, endDate)}
                         >
                             <Send size={'16px'} />
                         </button>
+
+                        <div className="tooltip-text">send</div>
+                        </div>
                     </div>
 
                     {/* Render the table if data is available */}
@@ -130,22 +134,29 @@ function Activity() {
                                                     padding: '0px',
                                                 }}
                                                 >
-                                                    
+                                                    <div className='tooltip-container'>
+
                                                     <button
                                                         className="btn btn-outline-primary btn-sm mt-3 mb-2"
                                                         style={{ maxHeight: '35px', width: '35px' }}
                                                     >
                                                         DO
                                                     </button>
+                                                    <div className="tooltip-text">Do</div>
+                                                    </div>
 
 
-                                                    <button
-                                                        className="btn btn-outline-danger btn-sm mt-3 mb-2"
-                                                        style={{ maxHeight: '35px', width: '35px' }}
-                                                    >
-                                                        <FilePenLine size={'16px'} />
-                                                    </button>
+                                                    <div className='tooltip-container'> 
+                                                        <button
+                                                            className="btn btn-outline-danger btn-sm mt-3 mb-2"
+                                                            style={{ maxHeight: '35px', width: '35px' }}
+                                                        >
+                                                            <FilePenLine size={'16px'} />
+                                                        </button>
+                                                        <div className="tooltip-text">Modify</div>
+                                                    </div>                                    
 
+                                                    <div className='tooltip-container'>
 
                                                     <button
                                                         className="btn btn-outline-success btn-sm mt-3 mb-2"
@@ -153,6 +164,8 @@ function Activity() {
                                                     >
                                                         <Printer size={'16px'}/>
                                                     </button>
+                                                    <div className="tooltip-text">Print</div>
+                                                    </div>
 
 
                                                 </td>
