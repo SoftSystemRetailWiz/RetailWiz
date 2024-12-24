@@ -28,23 +28,20 @@ export default function InventoryRep() {
 
   const serv_id= localStorage.getItem('serv_id')
   // Fetch inventory data via SOAP
-  const fetchInventoryData = async () => {
-    if (!localStorage.getItem("inventory")) {
-      result= fetchData('inventory_rep',{paremeter: 'serv_id', value: serv_id},'loginResponse','inventory_repResult')
-
+   const fetchInventoryData = async () => {
+        if (!localStorage.getItem("inventory")) {
+          const result = await fetchData('inventory_rep', [{ parameter: 'serv_id', value: serv_id }], 'inventory_repResponse', 'inventory_repResult');
           if (result) {
             const inventoryData = JSON.parse(result);
             localStorage.setItem("inventory", JSON.stringify(inventoryData)); // Save to localStorage
             setInventory(inventoryData);
           }
+        } else {
+          const storedInventory = JSON.parse(localStorage.getItem("inventory"));
+          setInventory(storedInventory);
         }
-      
-    else {
-      const storedInventory = JSON.parse(localStorage.getItem("inventory"));
-      setInventory(storedInventory);
-    }
-  };
-
+      };
+    
   useEffect(() => {
     fetchInventoryData();
   }, []);
