@@ -9,8 +9,9 @@ function Activity() {
     const [search, setsearch] = useState('');
     const [modalOpen, setModalOpen] = useState(false);  // State to manage modal visibility
 
-    const [inv_ref, setInvRef] = useState('');
-    const [printDisplay, setPrintDisplay] = useState(true);
+    const [invoiceViewData, setInvoiceViewData]= useState([]);
+
+    const [invoiceViewRef, setInvoiceViewRef]= useState([]);
 
     const handleStartDate = (e) => {
         setStartDate(e.target.value);
@@ -48,6 +49,34 @@ function Activity() {
             console.error("Error fetching data:", error);
         }
     };
+
+
+   const fetch_Data_Invoise_view= async (serv_id,inv_ref) => {
+        try {
+            const result = await fetchData('invoice_view_ref', [
+                { parameter: 'serv_id', value: serv_id },
+                { parameter: 'refstr', value: inv_ref }], 
+                'invoice_view_refResponse', 
+                'invoice_view_refResult');
+
+            if (result) {
+                const Data = JSON.parse(result);
+                setInvoiceViewRef(Data);
+                console.log('Fetched Data:', Data);
+            } else {
+                setInvoiceViewRef([]);
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
+
+    const headers = invoiceViewRef.length > 0 ? Object.keys(invoiceViewRef[0]) : [];
+
+    const handleInvoiceView = (inv_ref) => {
+        openModal();
+        fetch_Data_Invoise_view(serv_id,inv_ref)
+    }
 
     const openModal = () => {
         setModalOpen(true);  // Open the modal
@@ -159,7 +188,7 @@ function Activity() {
                                                     <button
                                                         className="btn btn-outline-success btn-sm "
                                                         
-                                                        onClick={openModal} 
+                                                        onClick={() => handleInvoiceView(item.inv_ref)} 
                                                     >
                                                         <Printer size={'16px'} />
                                                     </button>
@@ -181,89 +210,129 @@ function Activity() {
 
             {/* Modal */}
             {modalOpen && (
-                <div className="modal" 
-                style={{ 
-                    display: 'block', 
-                    position: 'fixed', 
-                    top: '0', 
-                    left: '0', 
-                    right: '0', 
-                    bottom: '0', 
-                    background: 'rgba(0,0,0,0.5)' 
-                    }}>
-                    <div className="modal-content" 
-                    style={{ 
-                        background: 'white', 
-                        padding: '10px', 
-                        maxWidth: '900px', 
-                        margin: 'auto', 
-                        marginTop: '60px' 
-                        }}>
-                    <div className='tooltip-container'
+                <div
+                    className="modal"
+                    style={{
+                        display: 'block',
+                        position: 'fixed',
+                        top: '0',
+                        left: '0',
+                        right: '0',
+                        bottom: '0',
+                        background: 'rgba(0,0,0,0.5)',
+                    }}
+                >
+                    <div
+                        className="modal-content"
                         style={{
-                            width: '30px',
+                            background: 'white',
+                            padding: '10px',
+                            maxWidth: '900px',
+                            margin: 'auto',
+                            marginTop: '60px',
+                            position: 'relative', // To keep the tooltip positioned correctly
                         }}
                     >
-                        <button
-                            className="btn btn-outline-danger btn-sm"
-                            onClick={closeModal}  // Close the modal
+                        {/* Close button */}
+                        <div
+                            className="tooltip-container"
                             style={{
-                                border: 'none',
-                                
+                                position: 'absolute',
+                                right: '10px',
+                                top: '10px',
+                                width: '30px',
                             }}
                         >
-                            <CircleX className='' size={'20px'}/>
-                        </button>
-                        <div className="tooltip-text">Close</div>
-                    </div>
-                    <div className='d-flex gap-3 mt-2 mb-2 ms-3'> 
-                        <div>
                             <button
-                            className='btn btn-outline-primary btn-sm'
-                            style={{
-                                border: 'none',
-                                borderBottom: '1px solid lightgrey',
-                                borderLeft: '1px solid lightgrey',
-                            }}
+                                className="btn btn-outline-danger btn-sm"
+                                onClick={closeModal}
+                                style={{
+                                    border: 'none',
+                                }}
                             >
-                                A4  
+                                <CircleX className="" size={'20px'} />
                             </button>
+                            <div className="tooltip-text">Close</div>
                         </div>
-                        <div>
-                            <button
-                            className='btn btn-outline-primary btn-sm'
-                            style={{
-                                border: 'none',
-                                borderBottom: '1px solid lightgrey',
-                                borderLeft: '1px solid lightgrey',
-                            }}
-                            >
-                                A5
-                            </button>
-                        </div>
-                        <div>
-                            <button
-                            className='btn btn-outline-primary btn-sm'
-                            style={{
-                                border: 'none',
-                                borderBottom: '1px solid lightgrey',
-                                borderLeft: '1px solid lightgrey',
-                            }}
-                            >
-                                Thermal
-                            </button>
-                        </div>
-                    </div>
 
-                    <div>
+                        {/* Print Options */}
+                        <br />
+                        <div className="d-flex gap-3 mt-4 mb-2 ms-3">
+                            <div>
+                                <button
+                                    className="btn btn-outline-primary btn-sm"
+                                    style={{
+                                        border: 'none',
+                                        borderBottom: '1px solid lightgrey',
+                                        borderLeft: '1px solid lightgrey',
+                                    }}
+                                >
+                                    A4
+                                </button>
+                            </div>
+                            <div>
+                                <button
+                                    className="btn btn-outline-primary btn-sm"
+                                    style={{
+                                        border: 'none',
+                                        borderBottom: '1px solid lightgrey',
+                                        borderLeft: '1px solid lightgrey',
+                                    }}
+                                >
+                                    A5
+                                </button>
+                            </div>
+                            <div>
+                                <button
+                                    className="btn btn-outline-primary btn-sm"
+                                    style={{
+                                        border: 'none',
+                                        borderBottom: '1px solid lightgrey',
+                                        borderLeft: '1px solid lightgrey',
+                                    }}
+                                >
+                                    Thermal
+                                </button>
+                            </div>
+                        </div>
 
-                        <h4>Modal</h4>
-                        <p>Content</p>
-                        
-                    </div>
+                        {/* Table Content */}
+                        <div>
+                            <div className="container mt-4" style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                                <table className="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            {headers.map((header, index) => (
+                                                <th key={index}>{header.replace(/_/g, ' ').toUpperCase()}</th>
+                                            ))}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {invoiceViewRef.length > 0 ? (
+                                            invoiceViewRef.map((item, index) => (
+                                                <tr key={index}>
+                                                    {headers.map((header, idx) => (
+                                                        <td key={idx}>
+                                                            {header === 'inv_date'
+                                                                ? new Date(item[header]).toLocaleDateString()
+                                                                : item[header]}
+                                                        </td>
+                                                    ))}
+                                                </tr>
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan={headers.length}>No data available</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}
+
         </div>
     );
 }
