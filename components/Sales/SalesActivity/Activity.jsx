@@ -102,6 +102,9 @@ function Activity() {
         <div id='SalesActivity' className="container-fluid mt-3 col-12 col-md-12 col-sm-12">
             <div className="row">
                 <div className="col-12 col-md-12 mb-1">
+                <span className="d-flex" style={{ marginLeft: "20px" }}>
+                <b>Sales &nbsp; / &nbsp; Sale Activity</b>
+                </span>
                     <div className="d-flex gap-2 flex-column flex-md-row">
                         <div className='d-flex gap-2'>
                             <label htmlFor="startDate" className="d-flex" style={{ width: '120px', alignItems: 'center', height: '60px' }}>Start Date:</label>

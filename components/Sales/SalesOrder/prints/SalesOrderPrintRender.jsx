@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import InvoiceA4 from './InvoiceA4';
-import InvoiceA5 from './InvoiceA5';
-import ThermalReceipt from './ThermalReceipt';
+import SalesOrderInvoiceA4 from './SalesOrderInvoiceA4';
+import SalesOrderInvoiceA5 from './SalesOrderInvoiceA5';
+import SalesOrderThermalReceipt from './SalesOrderThermalReceipt';
 
-function SalesActivityPrintRender() {
+
+function SalesOrderPrintRender() {
     const [A4, setA4] = useState(true);
     const [A5, setA5] = useState(false);
     const [thermal, setThermal] = useState(false);
@@ -63,16 +64,14 @@ function SalesActivityPrintRender() {
             </div>
 
             <div id="printScreen">
-                {A4 && <InvoiceA4 />}
-                {A5 && <InvoiceA5 />}
-                <div  className='container-fluid d-flex justify-content-between'>
-                    {thermal && <ThermalReceipt/>}
-                    <div></div>
-                    <div></div>
-                </div>
+                {A4 && <SalesOrderInvoiceA4 />}
+                {A5 && <SalesOrderInvoiceA5 />}
+                {thermal && <SalesOrderThermalReceipt/>}
+                    
+               
             </div>
         </div>
     );
 }
 
-export default SalesActivityPrintRender;
+export default SalesOrderPrintRender;

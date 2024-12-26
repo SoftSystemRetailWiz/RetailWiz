@@ -14,12 +14,13 @@ import CustomerList from "./ListView/CustomerList";
 import SupplierList from "./ListView/SupplierList";
 import IpAddressLocation from "./IpAddress/IpAddressLoaction";
 import JsonTable from './JsonTable'
-import Invoice from '../components/Sales/Invoice'
+import Invoice from './Sales/SaleInvoice/Invoice'
 import DateTime from "./datetime/datetime";
 import { div } from "framer-motion/client";
 import EmployeeData from "./forms/EmployeeData";
 import Outslip from "../components/Outslip";
 import Activity from "./Sales/SalesActivity/Activity";
+import SalesOrder from "./Sales/SalesOrder/SalesOrder";
 
 
 // Dynamic Icon Component
@@ -45,9 +46,9 @@ export default function Sidebar({ children }) {
 
 
   // Sales
-
-  const isSaleInvoice= location.pathname === '/sale/saleInvoice'
+  const isSalesOrder = location.pathname === '/sale/sales_order'
   const isSaleActivity= location.pathname === '/sale/salesActivity'
+  const isSaleInvoice= location.pathname === '/sale/saleInvoice'
 
   // list View
   const isListViewInventory= location.pathname ==='/List-View/Inventory-List'
@@ -224,9 +225,16 @@ export default function Sidebar({ children }) {
         )}
         {/* Sales  */}
           {/* Sales Sale invoice */}
+          {isSalesOrder && (
+            <SalesOrder/>
+          )}
           {isSaleInvoice && (
             <Invoice/>
           )}
+          {isSaleActivity&&(
+            <Activity/>
+          )}
+
         {/* List View > Inventory List */}
         {isListViewInventory &&(
           <InventoryList/>
@@ -248,9 +256,6 @@ export default function Sidebar({ children }) {
         )}
         {isOutSlip&&(
           <Outslip/>
-        )}
-        {isSaleActivity&&(
-          <Activity/>
         )}
 
 

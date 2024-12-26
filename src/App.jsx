@@ -8,7 +8,10 @@ import { DatabaseZap, Landmark, LayoutDashboard, ListOrdered, ListTree, MapPinne
 
 import { link, text } from 'framer-motion/client';
 import Login from '../components/login.jsx';
-import PrintRender from '../components/Sales/prints/printRender.jsx';
+import SalesActivityPrintRender from '../components/Sales/SalesActivity/prints/printRender.jsx';
+import SalesOrderPrintRender from '../components/Sales/SalesOrder/prints/SalesOrderPrintRender.jsx';
+
+
 
 
 function App() {
@@ -21,7 +24,8 @@ function App() {
 
   // Check if the current route is the login page
   const isLoginPage = location.pathname === '/';
-  const isPrintPage = location.pathname === '/sale/salesActivity/print';
+  const isSalesActivityPrintPage = location.pathname === '/sale/salesActivity/print';
+  const isSalesOrderPrintPage = location.pathname === '/sale/sales_order/print';
   const serv_id= localStorage.getItem('serv_id')
 
   return (
@@ -29,7 +33,7 @@ function App() {
     {serv_id ? (
     <>
       {/* Conditionally render Sidebar if not on the login page */}
-      {!isLoginPage && !isPrintPage && (
+      {!isLoginPage && !isSalesActivityPrintPage && !isSalesOrderPrintPage && (
         
         <Sidebar>
           
@@ -74,7 +78,7 @@ function App() {
             active={activeItem === 'Sale'}
             onClick={() => handleItemClick('Sale')}
             sublist={[
-              { text: 'Sales Order', icon: 'NotepadTextDashed' },
+              { text: 'Sales Order', icon: 'NotepadTextDashed' , link: '/sale/sales_order'},
               { text: 'Delivery Notes', icon: 'NotepadTextDashed' },
               { text: 'Sales Invoice', icon: 'NotepadTextDashed' ,link: '/sale/saleInvoice'},
               { text: 'Sales Activity', icon: 'NotepadTextDashed', link: '/sale/salesActivity' },
@@ -213,9 +217,11 @@ function App() {
         <Route path="/inventory-report" />
         <Route path='/purchase/POs'/>
         {/* sales */}
-        <Route path='/sale/saleInvoice'/>
+        <Route path='/sale/sales_order'/>
+        <Route path='/sale/sales_order/print' element={<SalesOrderPrintRender/>}/>
         <Route path='/sale/salesActivity'/>
-        <Route path='/sale/salesActivity/print' element={<PrintRender/>}/>
+        <Route path='/sale/salesActivity/print' element={<SalesActivityPrintRender/>}/>
+        <Route path='/sale/saleInvoice'/>
         {/* OutSlip */}
         <Route path='/OutSlip'/>
         {/* Purchase */}

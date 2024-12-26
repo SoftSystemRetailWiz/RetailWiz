@@ -26,8 +26,6 @@ export async function fetchData(method, Parameters = [], responseElement, result
         </soap:Envelope>`;
   
       const headers = { "Content-Type": "text/xml" };
-      console.log("SOAP Payload:", payload);
-      console.log("Headers:", headers);
   
       const response = await axios.post(
         "http://182.180.121.186:4000/retailService.asmx",

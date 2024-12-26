@@ -1,6 +1,6 @@
 import { CircleX, Search, UserPlus } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
-import { fetchData } from '../utills/ApiRequest';
+import { fetchData } from '../../utills/ApiRequest';
 
 function Invoice() {
     const [inventory, setInventory] = useState([]);
