@@ -1,6 +1,38 @@
-import React from 'react';
 
-const InvoiceA5 = ({ invoiceData, customerData, products, summary }) => {
+import React, { useEffect } from 'react';
+
+
+function InvoiceA5(){
+    const data1= localStorage.getItem('invoiceViewRef');
+    const data= JSON.parse(data1);
+
+    const rawtotal = localStorage.getItem('total');
+    const total = JSON.parse(rawtotal);
+    console.log('total:', total);
+
+    const selectivekeys = ['discount', 'rate', 'qty', 'item_desc_invoice'];
+    const header = data.length > 0 ? 
+    Object.keys(data[0]).filter((key) => selectivekeys.includes(key)).reverse() 
+    : 
+    [];
+
+    const headData =data[0]
+    console.log('headData:', headData);
+
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            localStorage.removeItem('invoiceViewRef');
+            localStorage.removeItem('total');
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        // Cleanup function to remove the event listener
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
+
     return (
         <div
             style={{
@@ -14,78 +46,101 @@ const InvoiceA5 = ({ invoiceData, customerData, products, summary }) => {
                 style={{
                     width: '100%',
                     padding: '10mm',
-                    boxSizing: 'border-box',
                     border: '1px solid #ddd',
-                    overflow: 'hidden',
+                    boxSizing: 'border-box',
                 }}
             >
-                {/* Title Section */}
-                <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-                    <h4>{invoiceData.storeName}</h4>
-                    <p>{invoiceData.storeAddress}</p>
+                <div className='container-fluid d-flex justify-content-between'
+                >
+                    {/* Title Section */}
+                    <div></div>
+                    <div style={{ textAlign: 'center' }}>
+                        <h4>{headData['fld_brand']}</h4>
+                        <p>{headData['address']}</p>
+                    </div>
+                    <div></div>
                 </div>
 
                 {/* Header Section */}
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <div className='mt-1' style={{ display: 'flex', justifyContent: 'between' }}>
                     <div>
-                        <p><b>Invoice No:</b> {invoiceData.invoiceNo}</p>
-                        <p><b>Date:</b> {invoiceData.date}</p>
-                        <p><b>Customer:</b> {customerData.name}</p>
+                        <b>Invoice No:</b>{headData['inv_no']}
                     </div>
-                    <div style={{ textAlign: 'right' }}>
-                        <p><b>Payment Type:</b> {invoiceData.paymentType}</p>
-                        <p><b>Wk No:</b> {invoiceData.wkNo}</p>
+                    <div></div>
+                    <div></div>
+                    
+                </div>
+                
+                <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'between' }}>
+                    <div></div>
+                    <div>
+                        <b>Date:</b>{headData['inv_date']}
                     </div>
+                    <div></div>
+                    
+                </div>
+                
+                <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'between' }}>
+                    <div></div>
+                    <div>
+                        <b>Customer:</b>{headData['customer_nam']}
+                    </div>
+                    <div></div>
+                    
                 </div>
 
+                
+                        
+
                 {/* Products Table */}
-                <table
+                <div className='container-fluid'>
+                <table className='table table-bordered'
                     style={{
-                        width: '100%',
-                        borderCollapse: 'collapse',
-                        marginTop: '10px',
                     }}
                 >
                     <thead>
                         <tr>
-                            <th style={{ border: '1px solid black', padding: '5px', textAlign: 'left' }}>Code</th>
-                            <th style={{ border: '1px solid black', padding: '5px', textAlign: 'left' }}>Product & Description</th>
-                            <th style={{ border: '1px solid black', padding: '5px', textAlign: 'left' }}>Qty</th>
-                            <th style={{ border: '1px solid black', padding: '5px', textAlign: 'left' }}>Rate</th>
-                            <th style={{ border: '1px solid black', padding: '5px', textAlign: 'left' }}>Total</th>
+                            {header.map((item, index)=>(
+                                <th key={index}>{item}</th>
+                            ))}
+                            <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {products.map((product, index) => (
-                            <tr key={index}>
-                                <td style={{ border: '1px solid black', padding: '5px' }}>{product.code}</td>
-                                <td style={{ border: '1px solid black', padding: '5px' }}>{product.description}</td>
-                                <td style={{ border: '1px solid black', padding: '5px' }}>{product.qty}</td>
-                                <td style={{ border: '1px solid black', padding: '5px' }}>{product.rate}</td>
-                                <td style={{ border: '1px solid black', padding: '5px' }}>{product.total}</td>
-                            </tr>
-                        ))}
+                    
+                        {data.map((item, index) => (
+                        <tr key={index}>
+                                {header.map((key, index) => (
+                                    <td key={index}>{item[key]}</td>
+                                ))}
+
+                                <td key={index}>{(item['qty']*item['rate'])- item['discount']}</td>
+                        </tr>
+                            ))}
+                   
                     </tbody>
                 </table>
-
-                {/* Summary Section */}
-                <div style={{ marginTop: '10px' }}>
-                    <p><b>Amount in Words:</b> {summary.amountInWords}</p>
-                    <p><b>Previous Balance:</b> {summary.previousBalance}</p>
-                    <p><b>Ledger Current Balance:</b> {summary.ledgerBalance}</p>
                 </div>
 
                 {/* Totals Section */}
-                <div style={{ textAlign: 'right', marginTop: '20px' }}>
-                    <p><b>G. Total:</b> {summary.grossTotal}</p>
-                    <p><b>Discount:</b> {summary.discount}</p>
-                    <p><b>Net Total:</b> {summary.netTotal}</p>
+                <div className='container-fluid d-flex justify-content-between'>
+                    <div></div>
+                    <div></div>
+                    <div style={{ textAlign: 'right', marginTop: '20px' }}>
+                        <p><b>G. Total:</b>{total}</p>
+                        <p><b>Net Total:</b>{total}</p>
+                    </div>
+
                 </div>
 
                 {/* Footer */}
-                <div style={{ textAlign: 'center', marginTop: '30px' }}>
-                    <p>Thanks for Shopping</p>
-                    <p>Signature: __________________</p>
+                <div  className='container-fluid d-flex justify-content-between'>
+                    <div></div>
+                    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+                        <p>Thanks for Shopping</p>
+                        <p>Signature: __________________</p>
+                    </div>
+                    <div></div>
                 </div>
             </div>
         </div>

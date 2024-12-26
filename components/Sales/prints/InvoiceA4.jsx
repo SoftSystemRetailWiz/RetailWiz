@@ -50,24 +50,55 @@ function InvoiceA4(){
                     boxSizing: 'border-box',
                 }}
             >
-                {/* Title Section */}
-                <div style={{ textAlign: 'center' }}>
-                    <h4>{headData['fld_brand']}</h4>
-                    <p>Store Address</p>
+                <div className='container-fluid d-flex justify-content-between'
+                >
+                    {/* Title Section */}
+                    <div></div>
+                    <div style={{ textAlign: 'center' }}>
+                        <h4>{headData['fld_brand']}</h4>
+                        <p>{headData['address']}</p>
+                    </div>
+                    <div></div>
                 </div>
 
                 {/* Header Section */}
-                <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-between' }}>
+                <div className='mt-1' style={{ display: 'flex', justifyContent: 'between' }}>
                     <div>
-                        <p><b>Invoice No:</b>{headData['inv_no']}</p>
-                        <p><b>Date:</b>{headData['inv_date']}</p>
-                        <p><b>Customer:</b>{headData['customer_nam']}</p>
+                        <b>Invoice No:</b>{headData['inv_no']}
                     </div>
-                    <div style={{ textAlign: 'right' }}>
-                        <p><b>Payment Type:</b> </p>
-                        <p><b>Wk No:</b> </p>
-                    </div>
+                    <div></div>
+                    <div></div>
+                    
                 </div>
+                
+                <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'between' }}>
+                    <div></div>
+                    <div>
+                        <b>Date:</b>{headData['inv_date']}
+                    </div>
+                    <div></div>
+                    
+                </div>
+                
+                <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'between' }}>
+                    <div></div>
+                    <div>
+                        <b>Customer:</b>{headData['customer_nam']}
+                    </div>
+                    <div></div>
+                    
+                </div>
+                <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'between' }}>
+                    <div></div>
+                    <div>
+                        <b>Cashier:</b>{headData['sales_man']}
+                    </div>
+                    <div></div>
+                    
+                </div>
+
+                
+                        
 
                 {/* Products Table */}
                 <div className='container-fluid'>
@@ -86,7 +117,7 @@ function InvoiceA4(){
                     <tbody>
                     
                         {data.map((item, index) => (
-                        <tr>
+                        <tr key={index}>
                                 {header.map((key, index) => (
                                     <td key={index}>{item[key]}</td>
                                 ))}
@@ -100,15 +131,24 @@ function InvoiceA4(){
                 </div>
 
                 {/* Totals Section */}
-                <div style={{ textAlign: 'right', marginTop: '20px' }}>
-                    <p><b>G. Total:</b>{total}</p>
-                    <p><b>Net Total:</b>{total}</p>
+                <div className='container-fluid d-flex justify-content-between'>
+                    <div></div>
+                    <div></div>
+                    <div style={{ textAlign: 'right', marginTop: '20px' }}>
+                        <p><b>G. Total:</b>{total}</p>
+                        <p><b>Net Total:</b>{total}</p>
+                    </div>
+
                 </div>
 
                 {/* Footer */}
-                <div style={{ textAlign: 'center', marginTop: '50px' }}>
-                    <p>Thanks for Shopping</p>
-                    <p>Signature: __________________</p>
+                <div  className='container-fluid d-flex justify-content-between'>
+                    <div></div>
+                    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+                        <p>Thanks for Shopping</p>
+                        <p>Signature: __________________</p>
+                    </div>
+                    <div></div>
                 </div>
             </div>
         </div>
