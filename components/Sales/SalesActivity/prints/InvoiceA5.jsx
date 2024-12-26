@@ -6,9 +6,9 @@ function InvoiceA5(){
     const data1= localStorage.getItem('invoiceViewRef');
     const data= JSON.parse(data1);
 
-    const rawtotal = localStorage.getItem('total');
+    const rawtotal = localStorage.getItem('a_total');
     const total = JSON.parse(rawtotal);
-    console.log('total:', total);
+   
 
     const selectivekeys = ['discount', 'rate', 'qty', 'item_desc_invoice'];
     const header = data.length > 0 ? 
@@ -22,7 +22,7 @@ function InvoiceA5(){
     useEffect(() => {
         const handleBeforeUnload = () => {
             localStorage.removeItem('invoiceViewRef');
-            localStorage.removeItem('total');
+            localStorage.removeItem('a_total');
         };
 
         window.addEventListener('beforeunload', handleBeforeUnload);

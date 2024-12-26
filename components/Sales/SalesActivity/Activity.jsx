@@ -87,7 +87,7 @@ function Activity() {
     const handleInvoiceView = (inv_ref,total) => {
         fetch_Data_Invoise_view(serv_id, inv_ref);
         
-        localStorage.setItem('total',JSON.stringify(total));
+        localStorage.setItem('a_total',JSON.stringify(total));
 
         const url = '/sale/salesActivity/print'; // Replace with the desired URL
         window.open(url, '_blank', 'noopener,noreferrer');

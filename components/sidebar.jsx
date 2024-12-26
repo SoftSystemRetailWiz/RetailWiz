@@ -8,7 +8,6 @@ import * as LucideIcon from "lucide-react";
 import {Link,  useLocation } from "react-router-dom";
 import Dashboard from "./dashboard";
 import InventoryRep from './inventory-report'
-import PurchaseOrder from "./purchaseOrder";
 import InventoryList from "./ListView/InventoryList";
 import CustomerList from "./ListView/CustomerList";
 import SupplierList from "./ListView/SupplierList";
@@ -16,11 +15,11 @@ import IpAddressLocation from "./IpAddress/IpAddressLoaction";
 import JsonTable from './JsonTable'
 import Invoice from './Sales/SaleInvoice/Invoice'
 import DateTime from "./datetime/datetime";
-import { div } from "framer-motion/client";
 import EmployeeData from "./forms/EmployeeData";
 import Outslip from "../components/Outslip";
 import Activity from "./Sales/SalesActivity/Activity";
 import SalesOrder from "./Sales/SalesOrder/SalesOrder";
+import PurchaseOrder from "./Purchase/PurchaseOrder/PurchaseOrder";
 
 
 // Dynamic Icon Component

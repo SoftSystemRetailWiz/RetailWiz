@@ -10,6 +10,7 @@ import { link, text } from 'framer-motion/client';
 import Login from '../components/login.jsx';
 import SalesActivityPrintRender from '../components/Sales/SalesActivity/prints/printRender.jsx';
 import SalesOrderPrintRender from '../components/Sales/SalesOrder/prints/SalesOrderPrintRender.jsx';
+import PurchaseOrderPrintRender from '../components/Purchase/PurchaseOrder/prints/PurchaseOrderPrintRender.jsx';
 
 
 
@@ -26,6 +27,7 @@ function App() {
   const isLoginPage = location.pathname === '/';
   const isSalesActivityPrintPage = location.pathname === '/sale/salesActivity/print';
   const isSalesOrderPrintPage = location.pathname === '/sale/sales_order/print';
+  const isPurchaseOrderPrintPage = location.pathname === '/purchase/purchase_order/print';
   const serv_id= localStorage.getItem('serv_id')
 
   return (
@@ -33,7 +35,7 @@ function App() {
     {serv_id ? (
     <>
       {/* Conditionally render Sidebar if not on the login page */}
-      {!isLoginPage && !isSalesActivityPrintPage && !isSalesOrderPrintPage && (
+      {!isLoginPage && !isSalesActivityPrintPage && !isSalesOrderPrintPage && !isPurchaseOrderPrintPage&&(
         
         <Sidebar>
           
@@ -215,7 +217,6 @@ function App() {
       <Routes>
         <Route path="/dashboard"/>
         <Route path="/inventory-report" />
-        <Route path='/purchase/POs'/>
         {/* sales */}
         <Route path='/sale/sales_order'/>
         <Route path='/sale/sales_order/print' element={<SalesOrderPrintRender/>}/>
@@ -225,6 +226,8 @@ function App() {
         {/* OutSlip */}
         <Route path='/OutSlip'/>
         {/* Purchase */}
+        <Route path='/purchase/POs'/>
+        <Route path='/purchase/purchase_order/print' element={<PurchaseOrderPrintRender/>}/>
         {/* List View */}
 
         <Route path='/List-View/Inventory-List'/>

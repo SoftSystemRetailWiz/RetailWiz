@@ -2,17 +2,20 @@
 import React, { useEffect } from 'react';
 
 
-function InvoiceA4(){
-    const data1= localStorage.getItem('invoiceViewRef');
+function SalesOrderInvoiceA4(){
+    const data1= localStorage.getItem('salesOrderViewRef');
     const data= JSON.parse(data1);
+    console.log(JSON.stringify(data))
 
-    const rawtotal = localStorage.getItem('a_total');
+    const rawtotal = localStorage.getItem('total');
     const total = JSON.parse(rawtotal);
-    
+    console.log('total:', total);
 
-    const selectivekeys = ['discount', 'rate', 'qty', 'item_desc_invoice'];
-    const header = data.length > 0 ? 
-    Object.keys(data[0]).filter((key) => selectivekeys.includes(key)).reverse() 
+    const selectivekeys = ['item_desc', 'qty', 'rate'];
+    const header = data.length > 0
+    ? Object.keys(data[0])
+    .filter((key)=> selectivekeys.includes(key))
+    .sort((a,b)=> selectivekeys.indexOf(a)- selectivekeys.indexOf(b))
     : 
     [];
 
@@ -21,8 +24,8 @@ function InvoiceA4(){
 
     useEffect(() => {
         const handleBeforeUnload = () => {
-            localStorage.removeItem('invoiceViewRef');
-            localStorage.removeItem('a_total');
+            localStorage.removeItem('salesOrderViewRef');
+            localStorage.removeItem('total');
         };
 
         window.addEventListener('beforeunload', handleBeforeUnload);
@@ -64,7 +67,7 @@ function InvoiceA4(){
                 {/* Header Section */}
                 <div className='mt-1' style={{ display: 'flex', justifyContent: 'between' }}>
                     <div>
-                        <b>Invoice No:</b>{headData['inv_no']}
+                        <b>Sales Order No: </b>{headData['so_no']}
                     </div>
                     <div></div>
                     <div></div>
@@ -74,7 +77,7 @@ function InvoiceA4(){
                 <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'between' }}>
                     <div></div>
                     <div>
-                        <b>Date:</b>{headData['inv_date']}
+                        <b>Delivery Date: </b>{new Date(headData['delivery_date']).toLocaleDateString('en-GB')}
                     </div>
                     <div></div>
                     
@@ -83,19 +86,12 @@ function InvoiceA4(){
                 <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'between' }}>
                     <div></div>
                     <div>
-                        <b>Customer:</b>{headData['customer_nam']}
+                        <b>Customer: </b>{headData['cust_name']}
                     </div>
                     <div></div>
                     
                 </div>
-                <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'between' }}>
-                    <div></div>
-                    <div>
-                        <b>Cashier:</b>{headData['sales_man']}
-                    </div>
-                    <div></div>
-                    
-                </div>
+               
 
                 
                         
@@ -111,7 +107,7 @@ function InvoiceA4(){
                             {header.map((item, index)=>(
                                 <th key={index}>{item}</th>
                             ))}
-                            <th>Total</th>
+                           <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -121,8 +117,7 @@ function InvoiceA4(){
                                 {header.map((key, index) => (
                                     <td key={index}>{item[key]}</td>
                                 ))}
-
-                                <td key={index}>{(item['qty']*item['rate'])- item['discount']}</td>
+                                <td>{item['rate']*item['qty']}</td>
                         </tr>
                             ))}
                    
@@ -155,4 +150,4 @@ function InvoiceA4(){
     );
 };
 
-export default InvoiceA4;
+export default SalesOrderInvoiceA4;
