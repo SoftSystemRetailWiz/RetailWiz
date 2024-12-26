@@ -17,7 +17,7 @@ const DateTime = () => {
   return (
     <div>
      
-      <small>{dateTime.toLocaleString()}</small>
+      <small className='col-3'>{dateTime.toLocaleString()}</small>
     </div>
   );
 };

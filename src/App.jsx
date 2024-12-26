@@ -8,6 +8,7 @@ import { DatabaseZap, Landmark, LayoutDashboard, ListOrdered, ListTree, MapPinne
 
 import { link, text } from 'framer-motion/client';
 import Login from '../components/login.jsx';
+import PrintRender from '../components/Sales/prints/printRender.jsx';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
 
   // Check if the current route is the login page
   const isLoginPage = location.pathname === '/';
+  const isPrintPage = location.pathname === '/sale/salesActivity/print';
   const serv_id= localStorage.getItem('serv_id')
 
   return (
@@ -27,7 +29,7 @@ function App() {
     {serv_id ? (
     <>
       {/* Conditionally render Sidebar if not on the login page */}
-      {!isLoginPage && (
+      {!isLoginPage && !isPrintPage && (
         
         <Sidebar>
           
@@ -213,6 +215,7 @@ function App() {
         {/* sales */}
         <Route path='/sale/saleInvoice'/>
         <Route path='/sale/salesActivity'/>
+        <Route path='/sale/salesActivity/print' element={<PrintRender/>}/>
         {/* OutSlip */}
         <Route path='/OutSlip'/>
         {/* Purchase */}

@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
-import {CircleX, FilePenLine, Printer, Send } from 'lucide-react';
+import { CircleX, FilePenLine, Printer, Send } from 'lucide-react';
 import { fetchData } from '../../utills/ApiRequest';
+import InvoiceA4 from '../prints/InvoiceA4';
 
 function Activity() {
     const [activityData, setActivityData] = useState([]);
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [search, setsearch] = useState('');
-    const [modalOpen, setModalOpen] = useState(false);  // State to manage modal visibility
+    const [search, setSearch] = useState('');
+    const [invoiceViewRef, setInvoiceViewRef] = useState([]);
+    
 
-    const [invoiceViewData, setInvoiceViewData]= useState([]);
+   
 
-    const [invoiceViewRef, setInvoiceViewRef]= useState([]);
+
+    
 
     const handleStartDate = (e) => {
         setStartDate(e.target.value);
@@ -50,70 +53,80 @@ function Activity() {
         }
     };
 
-
-   const fetch_Data_Invoise_view= async (serv_id,inv_ref) => {
+    const fetch_Data_Invoise_view = async (serv_id, inv_ref) => {
         try {
             const result = await fetchData('invoice_view_ref', [
                 { parameter: 'serv_id', value: serv_id },
-                { parameter: 'refstr', value: inv_ref }], 
-                'invoice_view_refResponse', 
+                { parameter: 'refstr', value: inv_ref }
+            ],
+                'invoice_view_refResponse',
                 'invoice_view_refResult');
 
             if (result) {
                 const Data = JSON.parse(result);
-                setInvoiceViewRef(Data);
+                localStorage.setItem('invoiceViewRef', JSON.stringify(Data));
                 console.log('Fetched Data:', Data);
             } else {
-                setInvoiceViewRef([]);
+                localStorage.setItem('invoiceViewRef', []);
             }
         } catch (error) {
             console.error("Error fetching data:", error);
         }
-    }
+    };
 
-    const headers = invoiceViewRef.length > 0 ? Object.keys(invoiceViewRef[0]) : [];
+    const selectivekeys = ['discount', 'rate', 'qty', 'item_desc_invoice'];
+    const modlebody = invoiceViewRef.length > 0 ? Object.keys(invoiceViewRef[0]).filter((key) => selectivekeys.includes(key)).reverse() : [];
 
-    const handleInvoiceView = (inv_ref) => {
-        openModal();
-        fetch_Data_Invoise_view(serv_id,inv_ref)
-    }
+  
+
+
+
+
+    const headerData = invoiceViewRef.length > 0 ? invoiceViewRef[0] : [];
+    console.log('headerData:', headerData);
+
+    const handleInvoiceView = (inv_ref,total) => {
+        fetch_Data_Invoise_view(serv_id, inv_ref);
+        
+        localStorage.setItem('total',JSON.stringify(total));
+
+        const url = '/sale/salesActivity/print'; // Replace with the desired URL
+        window.open(url, '_blank', 'noopener,noreferrer');
+    };
 
     const openModal = () => {
-        setModalOpen(true);  // Open the modal
+        setModalOpen(true);
     };
 
-    const closeModal = () => {
-        setModalOpen(false);  // Close the modal
-    };
 
     return (
-        <div className="container-fluid mt-3">
+        <div id='SalesActivity' className="container-fluid mt-3 col-12 col-md-12 col-sm-12">
             <div className="row">
                 <div className="col-12 col-md-12 mb-1">
                     <div className="d-flex gap-2 flex-column flex-md-row">
                         <div className='d-flex gap-2'>
-                            <label className='d-flex' htmlFor="startDate" style={{ width: '120px', alignItems: 'center', height: '60px' }}>Start Date:</label>
+                            <label htmlFor="startDate" className="d-flex" style={{ width: '120px', alignItems: 'center', height: '60px' }}>Start Date:</label>
                             <input
                                 id='startDate'
-                                className="form-control"
+                                className="form-control w-100"
                                 type="date"
-                                onChange={(e) => handleStartDate(e)}
+                                onChange={handleStartDate}
                                 style={{ height: '60px', border: 'none' }}
                             />
                         </div>
 
                         <div className='d-flex gap-2'>
-                            <label className='d-flex' htmlFor="endDate" style={{ width: '120px', alignItems: 'center', height: '60px' }}>End Date:</label>
+                            <label htmlFor="endDate" className="d-flex" style={{ width: '120px', alignItems: 'center', height: '60px' }}>End Date:</label>
                             <input
                                 id='endDate'
-                                className="form-control"
+                                className="form-control w-100"
                                 type="date"
-                                onChange={(e) => handleEndDate(e)}
+                                onChange={handleEndDate}
                                 style={{ height: '60px', border: 'none' }}
                             />
                         </div>
 
-                        <div className='tooltip-container'>
+                        <div className="tooltip-container">
                             <button
                                 className="btn btn-primary btn-sm mt-3 modal-subdiv-1-btn"
                                 style={{ maxHeight: '35px', width: '35px' }}
@@ -121,32 +134,27 @@ function Activity() {
                             >
                                 <Send size={'16px'} />
                             </button>
-                            <div className="tooltip-text">send</div>
+                            <div className="tooltip-text">Send</div>
                         </div>
                     </div>
 
-                    {/* Search Bar */}
-                    <div style={{ width: '300px' }}>
+                    <div className="w-100 mb-1 mt-2">
                         <input
                             type="text"
                             placeholder='Search'
-                            className="form-control w-100 mb-2 mb-md-1 "
-                            onChange={(e) => setsearch(e.target.value)}
+                            className="form-control mb-2"
+                            onChange={(e) => setSearch(e.target.value)}
                             style={{
                                 borderRadius: '5px',
                                 height: '35px',
-                                width: '200px',
+                                width: '230px',
                                 border: '1px solid lightgrey',
                             }}
                         />
                     </div>
 
-                    {/* Table */}
-                    <div
-                        className="col-md-12 mt-2"
-                        style={{ overflowY: 'auto', backgroundColor: 'rgb(232,233,233)', height: '67vh' }}
-                    >
-                        <table className="table">
+                    <div className="col-md-12 mt-2" style={{ overflowY: 'auto', backgroundColor: 'rgb(232,233,233)', height: '67vh' }}>
+                        <table className="table table-responsive">
                             <thead>
                                 <tr style={{ backgroundColor: 'rgb(232,233,233)', borderBottom: '1px solid grey' }}>
                                     <th>Invoice Reference</th>
@@ -165,9 +173,7 @@ function Activity() {
                                             <td className='d-flex gap-3'>
                                                 <div className='tooltip-container'>
                                                     <button
-                                                        className="btn btn-outline-primary btn-sm "
-                                                        
-                                                         // Open Modal on click
+                                                        className="btn btn-outline-primary btn-sm"
                                                     >
                                                         <small>DO</small>
                                                     </button>
@@ -177,7 +183,6 @@ function Activity() {
                                                 <div className='tooltip-container'>
                                                     <button
                                                         className="btn btn-outline-danger btn-sm"
-                                                        
                                                     >
                                                         <FilePenLine size={'12px'} />
                                                     </button>
@@ -186,9 +191,8 @@ function Activity() {
 
                                                 <div className='tooltip-container'>
                                                     <button
-                                                        className="btn btn-outline-success btn-sm "
-                                                        
-                                                        onClick={() => handleInvoiceView(item.inv_ref)} 
+                                                        className="btn btn-outline-success btn-sm"
+                                                        onClick={() => handleInvoiceView(item.inv_ref, item.total_amt)} 
                                                     >
                                                         <Printer size={'16px'} />
                                                     </button>
@@ -199,7 +203,7 @@ function Activity() {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan="5">No data available</td>
+                                        <td colSpan="4">No data available</td>
                                     </tr>
                                 )}
                             </tbody>
@@ -208,131 +212,8 @@ function Activity() {
                 </div>
             </div>
 
-            {/* Modal */}
-            {modalOpen && (
-                <div
-                    className="modal"
-                    style={{
-                        display: 'block',
-                        position: 'fixed',
-                        top: '0',
-                        left: '0',
-                        right: '0',
-                        bottom: '0',
-                        background: 'rgba(0,0,0,0.5)',
-                    }}
-                >
-                    <div
-                        className="modal-content"
-                        style={{
-                            background: 'white',
-                            padding: '10px',
-                            maxWidth: '900px',
-                            margin: 'auto',
-                            marginTop: '60px',
-                            position: 'relative', // To keep the tooltip positioned correctly
-                        }}
-                    >
-                        {/* Close button */}
-                        <div
-                            className="tooltip-container"
-                            style={{
-                                position: 'absolute',
-                                right: '10px',
-                                top: '10px',
-                                width: '30px',
-                            }}
-                        >
-                            <button
-                                className="btn btn-outline-danger btn-sm"
-                                onClick={closeModal}
-                                style={{
-                                    border: 'none',
-                                }}
-                            >
-                                <CircleX className="" size={'20px'} />
-                            </button>
-                            <div className="tooltip-text">Close</div>
-                        </div>
 
-                        {/* Print Options */}
-                        <br />
-                        <div className="d-flex gap-3 mt-4 mb-2 ms-3">
-                            <div>
-                                <button
-                                    className="btn btn-outline-primary btn-sm"
-                                    style={{
-                                        border: 'none',
-                                        borderBottom: '1px solid lightgrey',
-                                        borderLeft: '1px solid lightgrey',
-                                    }}
-                                >
-                                    A4
-                                </button>
-                            </div>
-                            <div>
-                                <button
-                                    className="btn btn-outline-primary btn-sm"
-                                    style={{
-                                        border: 'none',
-                                        borderBottom: '1px solid lightgrey',
-                                        borderLeft: '1px solid lightgrey',
-                                    }}
-                                >
-                                    A5
-                                </button>
-                            </div>
-                            <div>
-                                <button
-                                    className="btn btn-outline-primary btn-sm"
-                                    style={{
-                                        border: 'none',
-                                        borderBottom: '1px solid lightgrey',
-                                        borderLeft: '1px solid lightgrey',
-                                    }}
-                                >
-                                    Thermal
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Table Content */}
-                        <div>
-                            <div className="container mt-4" style={{ maxHeight: '400px', overflowY: 'auto' }}>
-                                <table className="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            {headers.map((header, index) => (
-                                                <th key={index}>{header.replace(/_/g, ' ').toUpperCase()}</th>
-                                            ))}
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {invoiceViewRef.length > 0 ? (
-                                            invoiceViewRef.map((item, index) => (
-                                                <tr key={index}>
-                                                    {headers.map((header, idx) => (
-                                                        <td key={idx}>
-                                                            {header === 'inv_date'
-                                                                ? new Date(item[header]).toLocaleDateString()
-                                                                : item[header]}
-                                                        </td>
-                                                    ))}
-                                                </tr>
-                                            ))
-                                        ) : (
-                                            <tr>
-                                                <td colSpan={headers.length}>No data available</td>
-                                            </tr>
-                                        )}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-
+           
         </div>
     );
 }
