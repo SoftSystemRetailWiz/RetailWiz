@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { CircleX, FilePenLine, Printer, Send } from 'lucide-react';
+import { FilePenLine, Printer, Send } from 'lucide-react';
 import { fetchData } from '../../utills/ApiRequest';
-import InvoiceA4 from '../prints/InvoiceA4';
 
 function Activity() {
     const [activityData, setActivityData] = useState([]);
