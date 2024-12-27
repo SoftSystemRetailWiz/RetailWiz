@@ -1,17 +1,13 @@
-
 import React, { useEffect } from 'react';
 
 
-function SalesOrderInvoiceA4(){
-    const data1= localStorage.getItem('salesOrderViewRef');
-    const data= JSON.parse(data1);
+function PurchaseOrderInvoiceA5(){
+    const data1= localStorage.getItem('PurchaseOrderViewRef');
+    
+    const data= data1? JSON.parse(data1): [];
     console.log(JSON.stringify(data))
 
-    const rawtotal = localStorage.getItem('total');
-    const total = JSON.parse(rawtotal);
-    console.log('total:', total);
-
-    const selectivekeys = ['item_desc', 'qty', 'rate'];
+    const selectivekeys = ['item_desc', 'qty', 'rate',];
     const header = data.length > 0
     ? Object.keys(data[0])
     .filter((key)=> selectivekeys.includes(key))
@@ -19,13 +15,14 @@ function SalesOrderInvoiceA4(){
     : 
     [];
 
-    const headData =data[0]
+    console.log('header', header)
+
+    let headData =data[0]
     console.log('headData:', headData);
 
     useEffect(() => {
         const handleBeforeUnload = () => {
-            localStorage.removeItem('salesOrderViewRef');
-            localStorage.removeItem('total');
+            localStorage.removeItem('PurchaseOrderViewRef');
         };
 
         window.addEventListener('beforeunload', handleBeforeUnload);
@@ -39,8 +36,8 @@ function SalesOrderInvoiceA4(){
     return (
         <div
             style={{
-                width: '210mm',
-                height: '297mm',
+                width: '148mm',
+                height: '210mm',
                 margin: '0',
                 fontFamily: 'Arial, sans-serif',
             }}
@@ -48,7 +45,7 @@ function SalesOrderInvoiceA4(){
             <div
                 style={{
                     width: '100%',
-                    padding: '20px',
+                    padding: '10mm',
                     border: '1px solid #ddd',
                     boxSizing: 'border-box',
                 }}
@@ -67,7 +64,7 @@ function SalesOrderInvoiceA4(){
                 {/* Header Section */}
                 <div className='mt-1' style={{ display: 'flex', justifyContent: 'between' }}>
                     <div>
-                        <b>Sales Order No: </b>{headData['so_no']}
+                        <b>Purchase Order No: </b>{headData['po_no']}
                     </div>
                     <div></div>
                     <div></div>
@@ -77,7 +74,7 @@ function SalesOrderInvoiceA4(){
                 <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'between' }}>
                     <div></div>
                     <div>
-                        <b>Delivery Date: </b>{new Date(headData['delivery_date']).toLocaleDateString('en-GB')}
+                        <b>Date: </b>{new Date(headData['ord_date']).toLocaleDateString('en-GB')}
                     </div>
                     <div></div>
                     
@@ -104,22 +101,23 @@ function SalesOrderInvoiceA4(){
                 >
                     <thead>
                         <tr>
-                            {header.map((item, index)=>(
-                                <th key={index}>{item}</th>
-                            ))}
+                            <th>Desc</th>
+                            <th>Qty</th>
+                            <th>Rate</th>
                            <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
-                    
-                        {data.map((item, index) => (
-                        <tr key={index}>
-                                {header.map((key, index) => (
-                                    <td key={index}>{item[key]}</td>
-                                ))}
-                                <td>{item['rate']*item['qty']}</td>
-                        </tr>
-                            ))}
+                        {data.map((item, index)=>(
+                            <tr key={index}>
+                                {header.map((subitem, subind)=>{
+                                   return <td key={subind}>{item[subitem]}</td>
+                                })}
+                                <td >{item['rate']*item['qty']}</td>
+                            </tr>
+                        ))}
+
+                       
                    
                     </tbody>
                 </table>
@@ -130,8 +128,8 @@ function SalesOrderInvoiceA4(){
                     <div></div>
                     <div></div>
                     <div style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <p><b>G. Total:</b>{total}</p>
-                        <p><b>Net Total:</b>{total}</p>
+                        <p><b>G. Total:</b> {headData['total_amount']}</p>
+                        <p><b>Net Total:</b>{headData['total_amount']}</p>
                     </div>
 
                 </div>
@@ -150,4 +148,4 @@ function SalesOrderInvoiceA4(){
     );
 };
 
-export default SalesOrderInvoiceA4;
+export default PurchaseOrderInvoiceA5;

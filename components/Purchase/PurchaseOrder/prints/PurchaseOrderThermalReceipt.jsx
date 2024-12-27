@@ -1,12 +1,10 @@
 import React, {useEffect} from 'react';
 
-function SalesOrderThermalReceipt(){
-  const data1= localStorage.getItem('salesOrderViewRef');
-      const data= JSON.parse(data1);
+function PurchaseOrderThermalReceipt(){
+  const data1= localStorage.getItem('PurchaseOrderViewRef');
+      const data= data1? JSON.parse(data1): [];
   
-      const rawtotal = localStorage.getItem('total');
-      const total = JSON.parse(rawtotal);
-      console.log('total:', total);
+     
   
       const selectivekeys = ['item_desc', 'qty', 'rate'];
     const header = data.length > 0
@@ -21,8 +19,7 @@ function SalesOrderThermalReceipt(){
   
       useEffect(() => {
           const handleBeforeUnload = () => {
-              localStorage.removeItem('salesOrderViewRef');
-              localStorage.removeItem('total');
+              localStorage.removeItem('PurchaseOrderViewRef');
           };
   
           window.addEventListener('beforeunload', handleBeforeUnload);
@@ -43,8 +40,8 @@ function SalesOrderThermalReceipt(){
           <h4 style={{ fontSize: '16px' }}>{headData['fld_brand']}</h4>
           <p style={{ fontSize: '12px' }}>{headData['address']}</p>
           <h6 style={{ fontSize: '14px' }}>Sales Receipt</h6>
-          <p style={{ fontSize: '12px' }}>Sales Order No: {headData['so_no']}</p>
-          <p style={{ fontSize: '12px' }}>Date: {new Date(headData['delivery_date']).toLocaleDateString('en-GB')}</p>
+          <p style={{ fontSize: '12px' }}>Purchase Order No: {headData['po_no']}</p>
+          <p style={{ fontSize: '12px' }}>Date: {new Date(headData['ord_date']).toLocaleDateString('en-GB')}</p>
         </div>
         <div className="card-body">
           <div className="row mb-1">
@@ -82,7 +79,7 @@ function SalesOrderThermalReceipt(){
             <div></div>
             <div></div>
             <div className="col-6 text-end">
-              <strong>Total: </strong> {total}
+              <strong>Total: </strong> {headData['total_amount']}
             </div>
           </div>
           
@@ -98,4 +95,4 @@ function SalesOrderThermalReceipt(){
   );
 };
 
-export default SalesOrderThermalReceipt;
+export default PurchaseOrderThermalReceipt;

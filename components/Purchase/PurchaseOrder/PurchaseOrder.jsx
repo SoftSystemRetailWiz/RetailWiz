@@ -46,14 +46,14 @@ function PurchaseOrder() {
     }, [])
 
 
-    const fetch_Data_PurchaseOrder_view = async (serv_id, inv_ref) => {
+    const fetch_Data_PurchaseOrder_view = async (inv_ref) => {
         try {
-            const result = await fetchData('so_view_ref', [
+            const result = await fetchData('po_get', [
                 { parameter: 'serv_id', value: serv_id },
                 { parameter: 'refstr', value: inv_ref }
             ],
-                'so_view_refResponse',
-                'so_view_refResult');
+                'po_getResponse',
+                'po_getResult');
 
             if (result) {
                 const rawData = JSON.parse(result);
@@ -81,9 +81,8 @@ function PurchaseOrder() {
 
 
    
-    const handlePurchaseOrderView = (inv_ref, total) => {
-        fetch_Data_PurchaseOrder_view(serv_id, inv_ref);
-        localStorage.setItem('p_total', JSON.stringify(total))
+    const handlePurchaseOrderView = (inv_ref) => {
+        fetch_Data_PurchaseOrder_view(inv_ref);
         
         
 
@@ -149,7 +148,7 @@ function PurchaseOrder() {
                                                 <div className='tooltip-container'>
                                                     <button
                                                         className="btn btn-outline-success btn-sm"
-                                                        onClick={() => handleSalesOrderView(item.ref_doc_no, item.total_amount)} 
+                                                        onClick={() => handlePurchaseOrderView(item.ref_doc_no)} 
                                                     >
                                                         <Printer size={'16px'} />
                                                     </button>

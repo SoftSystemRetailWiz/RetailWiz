@@ -3,11 +3,8 @@ import React, { useEffect } from 'react';
 
 
 function InvoiceA4(){
-    const data1= localStorage.getItem('invoiceViewRef');
+    const data1= localStorage.getItem('PurchaseOrderViewRef');
     const data= JSON.parse(data1);
-
-    const rawtotal = localStorage.getItem('a_total');
-    const total = JSON.parse(rawtotal);
     
 
     const selectivekeys = ['discount', 'rate', 'qty', 'item_desc_invoice'];
@@ -108,9 +105,9 @@ function InvoiceA4(){
                 >
                     <thead>
                         <tr>
-                            {header.map((item, index)=>(
-                                <th key={index}>{item}</th>
-                            ))}
+                            <th>Desc</th>
+                            <th>Qty</th>
+                            <th>Rate</th>
                             <th>Total</th>
                         </tr>
                     </thead>

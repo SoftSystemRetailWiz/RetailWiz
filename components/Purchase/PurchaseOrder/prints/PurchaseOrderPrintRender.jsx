@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import SalesOrderInvoiceA4 from './SalesOrderInvoiceA4';
-import SalesOrderInvoiceA5 from './SalesOrderInvoiceA5';
-import SalesOrderThermalReceipt from './SalesOrderThermalReceipt';
+import PurchaseOrderInvoiceA4 from './PurchaseOrderInvoiceA4';
+import PurchaseOrderInvoiceA5 from './PurchaseOrderInvoiceA5';
+import PurchaseOrderThermalReceipt from './PurchaseOrderThermalReceipt';
 
 
 function PurchaseOrderPrintRender() {
@@ -64,9 +64,9 @@ function PurchaseOrderPrintRender() {
             </div>
 
             <div id="printScreen">
-                {A4 && <SalesOrderInvoiceA4 />}
-                {A5 && <SalesOrderInvoiceA5 />}
-                {thermal && <SalesOrderThermalReceipt/>}
+                {A4 && <PurchaseOrderInvoiceA4/>}
+                {A5 && <PurchaseOrderInvoiceA5 />}
+                {thermal && <PurchaseOrderThermalReceipt/>}
                     
                
             </div>
