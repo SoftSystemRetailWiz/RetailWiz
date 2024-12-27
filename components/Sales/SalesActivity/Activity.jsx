@@ -43,7 +43,6 @@ function Activity() {
             if (result) {
                 const Data = JSON.parse(result);
                 setActivityData(Data);
-                console.log('Fetched Data:', Data);
             } else {
                 setActivityData([]);
             }

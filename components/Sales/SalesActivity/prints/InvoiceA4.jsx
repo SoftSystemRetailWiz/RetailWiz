@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 
 function InvoiceA4(){
-    const data1= localStorage.getItem('PurchaseOrderViewRef');
+    const data1= localStorage.getItem('invoiceViewRef');
     const data= JSON.parse(data1);
     
 
@@ -13,6 +13,10 @@ function InvoiceA4(){
     : 
     [];
 
+
+    const rawtotal = localStorage.getItem('a_total');
+    const total = JSON.parse(rawtotal);
+    
     const headData =data[0]
     console.log('headData:', headData);
 
