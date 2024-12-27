@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import logo from "../../../../src/assets/logo.png"
 
 function PurchaseOrderThermalReceipt(){
   const data1= localStorage.getItem('PurchaseOrderViewRef');
@@ -37,10 +38,23 @@ function PurchaseOrderThermalReceipt(){
     <div className="container-fluid ms-0 my-2" style={{ width: '80mm', fontSize: '12px' }}>
       <div className="card">
         <div className="card-header text-center">
+          <div className='d-flex justify-content-between'>
+            <div>
+              <img
+              src={logo} 
+              alt="" 
+              style={{
+                width: '95px'
+              }}
+              />
+            </div>
+            <div></div>
+            <div></div>
+          </div>
           <h4 style={{ fontSize: '16px' }}>{headData['fld_brand']}</h4>
           <p style={{ fontSize: '12px' }}>{headData['address']}</p>
-          <h6 style={{ fontSize: '14px' }}>Sales Receipt</h6>
-          <p style={{ fontSize: '12px' }}>Purchase Order No: {headData['po_no']}</p>
+          <h6 style={{ fontSize: '14px' }}>Purchase order</h6>
+          <p style={{ fontSize: '12px' }}>PO No: {headData['po_no']}</p>
           <p style={{ fontSize: '12px' }}>Date: {new Date(headData['ord_date']).toLocaleDateString('en-GB')}</p>
         </div>
         <div className="card-body">

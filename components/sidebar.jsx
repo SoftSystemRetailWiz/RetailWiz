@@ -136,79 +136,53 @@ export default function Sidebar({ children }) {
       }}
       >
         
-        <nav  className="d-flex justify-content-between"
-        style={{
-          backgroundColor: '#f2f2f2',
-          marginTop: '0px',
-          // position: 'sticky',
-          padding: '10px',
-          paddingLeft: isExpanded? '10px': '60px',
-        }}
-        >{isExpanded? 
-        <div className="spacer col-sm-0">
-          {isSaleInvoice&& (
-            <>
-            <h5 className="ms-4"
-            style={{
-              fontWeight: 'bold',
-              color: '#4285f4'
-            }}
-            >Sale Invoice</h5>
-            </>
-            
-          )}
-          {isOutSlip && (
-              <h5 className="ms-4"
-              style={{
-                fontWeight: 'bold',
-                color: '#4285f4'
-              }}
-              >OutSlip</h5>
-            )}
-        </div>
-        :
-        <div className="d-flex ">
-          <img style={{width:'70px'}} src={logo_min} alt="" />
-          {isSaleInvoice&& (
-            <h5 className="ms-4"
-            style={{
-              fontWeight: 'bold',
-              color: '#4285f4'
-            }}
-            >Sale Invoice</h5>
-          )}
-          </div>}
-        <div className="d-flex">
-          <li className="d-flex"
+      <nav 
+          className="col-12 col-md-12 col-sm-12 w-100 d-flex justify-content-between" 
           style={{
-            listStyleType: 'none'
+              backgroundColor: '#f2f2f2',
+              marginTop: '0px',
+              padding: '10px',
+              paddingLeft: isExpanded ? '10px' : '60px',
           }}
-          >
-            
-              <div className="me-4">
-                <DateTime/>
+      >
+          <div className="d-flex align-items-center">
+              {isExpanded ? (
+                  <div className="spacer col-sm-0">
+                      {isSaleInvoice && (
+                          <h5 className="ms-4" style={{ fontWeight: 'bold', color: '#4285f4' }}>
+                              Sale Invoice
+                          </h5>
+                      )}
+                      {isOutSlip && (
+                          <h5 className="ms-2" style={{ fontWeight: 'bold', color: '#4285f4' }}>
+                              OutSlip
+                          </h5>
+                      )}
+                  </div>
+              ) : (
+                  <div className="d-flex align-items-center">
+                      <img style={{ width: '70px' }} src={logo_min} alt="" />
+                      {isSaleInvoice && (
+                          <h5 className="ms-2" style={{ fontWeight: 'bold', color: '#4285f4' }}>
+                              Sale Invoice
+                          </h5>
+                      )}
+                  </div>
+              )}
+          </div>
 
-              </div>
+          <div className="d-flex align-items-center">
+              <li className="d-flex" style={{ listStyleType: 'none' }}>
+                  <small className="pe-4">
+                      <DateTime />
+                  </small>
+                  <DynamicIcons iconName={'Headset'} size={18} />
+                  <b>:</b>
+                  <small className="">042-35764969</small>
+              </li>
+          </div>
+      </nav>
 
-            <DynamicIcons iconName={'Headset'} size={18}/><b>:</b>
-            <small className="ms-2">042-35764969</small>
-          </li>
-          <li
-          style={{
-            listStyleType: 'none',
-            marginLeft: '10px'
-          }}
-          >
-            <img 
-            style={{
-              height: '20px',
-              width: '20px'
-            }}
-            src={whatsapp}/><b> :</b>
-            <small className="ms-2">+92-3034220867</small>
-          </li>
-        </div>
-        </nav>
 
         
         {/* other pages data */}

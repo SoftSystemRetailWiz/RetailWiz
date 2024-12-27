@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import logo from "../../../../src/assets/logo.png"
 
 function PurchaseOrderInvoiceA5(){
+    const [totalQty, setTotalQty]= useState()
+
+
+
     const data1= localStorage.getItem('PurchaseOrderViewRef');
     
     const data= data1? JSON.parse(data1): [];
-    console.log(JSON.stringify(data))
+ 
 
     const selectivekeys = ['item_desc', 'qty', 'rate',];
     const header = data.length > 0
@@ -33,6 +37,21 @@ function PurchaseOrderInvoiceA5(){
         };
     }, []);
 
+
+
+    
+    const handleQtyTotal=()=>{
+        let total=0
+        data.forEach(item => {
+            total +=  parseInt(item.qty);
+        });
+        setTotalQty(total)
+    }
+
+    useEffect(() => {
+        handleQtyTotal();
+    }, []);
+
     return (
         <div
             style={{
@@ -50,46 +69,70 @@ function PurchaseOrderInvoiceA5(){
                     boxSizing: 'border-box',
                 }}
             >
-                <div className='container-fluid d-flex justify-content-between'
+                <div className='mb-2'
+                style={{
+                    borderBottom: '1px solid lightgrey'
+                }}
                 >
+                    <div className='container-fluid d-flex justify-content-between'
+                    >
+                        {/* Header Section */}
+                        <div style={{width: '70mm'}}>
+                            <img
+                                src={logo} 
+                                alt="" 
+                                style={{
+                                width: '125px'
+                                }}
+                            />
+                        </div>
+                        {/* Brand Info Section */}
+                        <div style={{width: '70mm', textAlign: 'center'}}>
+                            <h4><b>RetailWiz Pvt.Ltd.</b></h4>
+                            <p>alhafeez executive <br /> office# 811 Firdous market Lahore </p>
+                        </div>
+                        <div style={{width: '70mm'}}></div>
+                    </div>
                     {/* Title Section */}
-                    <div></div>
-                    <div style={{ textAlign: 'center' }}>
-                        <h4>{headData['fld_brand']}</h4>
-                        <p>{headData['address']}</p>
+                    <div className='container-fluid d-flex justify-content-between mt-4'>
+                        <div style={{width: '70mm'}}></div>
+                        <div style={{width: '70mm'}}><h5><b>PURCHASE ORDER</b></h5></div>
+                        <div style={{width: '70mm'}}></div>
                     </div>
-                    <div></div>
                 </div>
 
-                {/* Header Section */}
-                <div className='mt-1' style={{ display: 'flex', justifyContent: 'between' }}>
-                    <div>
-                        <b>Purchase Order No: </b>{headData['po_no']}
-                    </div>
-                    <div></div>
-                    <div></div>
-                    
-                </div>
-                
-                <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'between' }}>
-                    <div></div>
-                    <div>
-                        <b>Date: </b>{new Date(headData['ord_date']).toLocaleDateString('en-GB')}
-                    </div>
-                    <div></div>
-                    
-                </div>
-                
-                <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'between' }}>
-                    <div></div>
-                    <div>
-                        <b>Customer: </b>{headData['cust_name']}
-                    </div>
-                    <div></div>
-                    
-                </div>
-               
 
+                {/* Body Head Section */}
+
+                <div className='mb-2' style={{
+                    borderBottom: '1px solid lightgrey'
+                }}>
+                    <div className='container-fluid d-flex justify-content-between'>
+                        <div className='d-flex justify-content-between ' style={{width: '70mm', height: '40mm', flexDirection: 'column'}}>
+
+                            <div>
+                                <b>Supplier name: </b>
+                                <p>{headData['cust_name']}</p>
+                            </div>
+                            <div className='d-flex justify-content-between'>
+                                <div>Lahore</div>
+                                <div></div>
+                            </div>
+
+                        </div>
+                        <div style={{width: '70mm'}}>
+                            <div className='d-flex justify-content-between'><b>Po No : </b>{headData['po_no']}</div>
+                            <div className='d-flex justify-content-between'><b>Po Type: </b>{headData['po_type']}</div>
+                            <div className='d-flex justify-content-between'><b>Ship To : </b>{headData['shipto']}</div>
+                            <div className='d-flex justify-content-between'><b>Bill To : </b>{headData['billto']}</div>
+                            
+                        </div>
+                        <div className='d-flex justify-content-between' style={{width: '70mm'}}>
+                            <div></div>
+                            <div><b>Date: </b> {new Date(headData['ord_date']).toLocaleDateString('en-GB')}</div>
+                        </div>
+                    </div>
+                </div>
                 
                         
 
@@ -124,25 +167,47 @@ function PurchaseOrderInvoiceA5(){
                 </div>
 
                 {/* Totals Section */}
-                <div className='container-fluid d-flex justify-content-between'>
+                <div className='d-flex justify-content-between me-3'>
                     <div></div>
-                    <div></div>
-                    <div style={{ textAlign: 'right', marginTop: '20px' }}>
-                        <p><b>G. Total:</b> {headData['total_amount']}</p>
-                        <p><b>Net Total:</b>{headData['total_amount']}</p>
+                    <div>
+                        <div className='mb-2 mt-2'><b>T_Qty: </b>{totalQty}</div>
+                        <div><b>Total: </b>{headData['total_amount']}</div>
+                        
                     </div>
-
                 </div>
+
+                {/* Remarks Section */}
+
+                <div>
+                    Remarks ___________________________________________________________________________
+                    ___________________________________________________________________________________
+                    ___________________________________________________________________________________
+                    ___________________________________________________________________________________
+                </div>
+
 
                 {/* Footer */}
-                <div  className='container-fluid d-flex justify-content-between'>
-                    <div></div>
-                    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-                        <p>Thanks for Shopping</p>
-                        <p>Signature: __________________</p>
+                <footer className='mt-5 pt-5'>
+                    <div className='d-flex justify-content-between'>
+                        <div style={{width: '67.75mm'}}>
+                            <p>____________</p>
+                            <p> Prepared By</p>
+                        </div>
+                        <div style={{width: '67.75mm' }}>
+                            <p>___________</p>
+                            <p>Reviewed by <br />Manager</p>
+                        </div>
+                        <div style={{width: '67.75mm' }}>
+                            <p>_____________</p>
+                            <p>Acknowledged <br />By Accounts</p>
+                        </div>
+                        <div style={{width: '67.75mm'}}>
+                            <p>_______________</p>
+                            <p>Approved by CEO</p>
+                        </div>
                     </div>
-                    <div></div>
-                </div>
+                    
+                </footer>
             </div>
         </div>
     );
