@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Sidebar, { SidebarItem } from '../components/sidebar.jsx';
@@ -8,7 +8,7 @@ import { DatabaseZap, Landmark, LayoutDashboard, ListOrdered, ListTree, MapPinne
 
 import { link, text } from 'framer-motion/client';
 import Login from '../components/login.jsx';
-import SalesActivityPrintRender from '../components/Sales/SalesActivity/prints/printRender.jsx';
+import SalesActivityPrintRender from '../components/Sales/SalesActivity/prints/PrintRender.jsx';
 import SalesOrderPrintRender from '../components/Sales/SalesOrder/prints/SalesOrderPrintRender.jsx';
 import PurchaseOrderPrintRender from '../components/Purchase/PurchaseOrder/prints/PurchaseOrderPrintRender.jsx';
 
@@ -16,6 +16,24 @@ import PurchaseOrderPrintRender from '../components/Purchase/PurchaseOrder/print
 
 
 function App() {
+  const [duration, setDuration] = useState(20 * 60); // Initialize to 20 minutes in seconds
+
+  useEffect(() => {
+    if (duration <= 0) {
+      // Clear localStorage when the countdown reaches 0
+      localStorage.clear();
+      console.log("Local storage cleared after the timer is done.");
+      return; // Stop the countdown
+    } else if(localStorage.getItem('serv_id') && location.pathname === '/'){
+      localStorage.clear()
+    }
+
+    const timer = setInterval(() => {
+      setDuration((prevDuration) => prevDuration - 1);
+    }, 1000); // Decrement every second
+
+    return () => clearInterval(timer); // Cleanup on unmount or when duration changes
+  }, [duration]);
   const [activeItem, setActiveItem] = useState();
   const location = useLocation(); // Get the current route location
 

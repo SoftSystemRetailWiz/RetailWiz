@@ -1,6 +1,8 @@
 
 import React, { useEffect } from 'react';
 
+import logo from '../../../../src/assets/logo.png'
+
 
 function InvoiceA5(){
     const data1= localStorage.getItem('invoiceViewRef');
@@ -53,12 +55,20 @@ function InvoiceA5(){
                 <div className='container-fluid d-flex justify-content-between'
                 >
                     {/* Title Section */}
-                    <div></div>
-                    <div style={{ textAlign: 'center' }}>
+                    <div style={{width: '70mm'}}>
+                    <img
+                        src={logo} 
+                        alt="" 
+                        style={{
+                        width: '125px'
+                        }}
+                    />
+                    </div>
+                    <div style={{ textAlign: 'center', width: '70mm' }}>
                         <h4>{headData['fld_brand']}</h4>
                         <p>{headData['address']}</p>
                     </div>
-                    <div></div>
+                    <div style={{width: '70mm'}}></div>
                 </div>
 
                 {/* Header Section */}

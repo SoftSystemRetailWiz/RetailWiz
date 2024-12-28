@@ -1,5 +1,6 @@
 
 import React, { useEffect } from 'react';
+import logo from "../../../../src/assets/logo.png"
 
 
 function InvoiceA4(){
@@ -54,12 +55,20 @@ function InvoiceA4(){
                 <div className='container-fluid d-flex justify-content-between'
                 >
                     {/* Title Section */}
-                    <div></div>
-                    <div style={{ textAlign: 'center' }}>
+                    <div style={{width: '70mm'}}>
+                    <img
+                        src={logo} 
+                        alt="" 
+                        style={{
+                        width: '125px'
+                        }}
+                    />
+                    </div >
+                    <div style={{ textAlign: 'center', width: '70mm' }}>
                         <h4>{headData['fld_brand']}</h4>
                         <p>{headData['address']}</p>
                     </div>
-                    <div></div>
+                    <div style={{width: '70mm'}}></div>
                 </div>
 
                 {/* Header Section */}
@@ -110,6 +119,7 @@ function InvoiceA4(){
                     <thead>
                         <tr>
                             <th>Desc</th>
+                            <th>Disc</th>
                             <th>Qty</th>
                             <th>Rate</th>
                             <th>Total</th>
