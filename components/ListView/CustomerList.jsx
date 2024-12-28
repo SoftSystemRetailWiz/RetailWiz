@@ -96,12 +96,12 @@ function CustomerList() {
 
     return (
         <div className="mt-5">
-            <div className="modal-subdiv-2 d-flex justify-content-between">
+            <div className="col-12 col-md-12 col-sm-12 modal-subdiv-2 d-flex justify-content-between">
                 <span className="d-flex" style={{ marginLeft: "20px" }}>
                     <b>List View &nbsp; / &nbsp; Customer List</b>
                 </span>
                 <input
-                    className="p-1 ps-2"
+                    className="p-1 ps-2 "
                     type="text"
                     placeholder="Search"
                     value={searchTerm}

@@ -68,6 +68,7 @@ export default function Sidebar({ children }) {
 
   const [isExpanded, setIsExpanded] = useState(false);
 
+
   const toggleSidebar = () => setIsExpanded((prevState) => !prevState);
   
 
@@ -255,8 +256,11 @@ export function SidebarItem({
   isSubDropdown = false,
 }) {
   const { isExpanded } = useContext(SidebarContext);
+  
   const [isOpen, setIsOpen] = useState(false);
   const [OpenSublistIndex, setOpenSublistIndex]=useState(null)
+
+  const width=window.innerWidth
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -283,7 +287,29 @@ export function SidebarItem({
     whileHover={{ scale: 1.05 }} // Slight zoom on hover
     whileTap={{ scale: 0.95 }} // Slight shrink on click
   >
+    {(isDropdown === false && width<450)?
+      <Link to={link}
+      
+      onClick={() => {
+        isExpanded(fal)
+      }}
+      style={{
+        color: active? "#ffff": 'black'
+      }} 
+      >
+      {icon}
+      <span className="ms-3" 
+      >{text}</span>
+      {isDropdown && (
+        <DynamicIcons iconName={isOpen ? "ChevronUp" : "ChevronDown"} size={15} />
+      )}
+      </Link>
+    :
     <Link to={link}
+    
+    onClick={() => {
+      
+    }}
     style={{
       color: active? "#ffff": 'black'
     }} 
@@ -295,6 +321,7 @@ export function SidebarItem({
       <DynamicIcons iconName={isOpen ? "ChevronUp" : "ChevronDown"} size={15} />
     )}
     </Link>
+    }
   </motion.ul>
 )}
 
@@ -311,92 +338,70 @@ export function SidebarItem({
             ease: "easeInOut",
           }}
         >
-          {sublist.map((item, index) => (
-            isExpanded?
-            <motion.li
-              key={index}
-              className=" align-items-center py-1 px-1 rounded hover:bg-primary"
-              whileHover={{ scale: 1.0 }}
+         {sublist.map((item, index) => (
+  isExpanded ? (
+    <motion.li
+      key={index}
+      className="align-items-center py-1 px-1 rounded hover:bg-primary"
+      whileHover={{ scale: 1.0 }}
+    >
+      {item.nestedSubList ? (
+        <>
+          <DynamicIcons iconName={item.icon} size={18} />
+          <span
+            className={`${isExpanded ? "ms-1" : "d-none"} hover:bg-primary`}
+            style={{ color: "black" }}
+            onClick={() => toggleSubDropdown(index)}
+          >
+            {item.text}
+
+            {isSubDropdown && (
+              <DynamicIcons
+                iconName={OpenSublistIndex === index ? "ChevronUp" : "ChevronDown"}
+                size={15}
+                color={'blue'}
+              />
+            )}
+          </span>
+
+          {OpenSublistIndex === index && item.nestedSubList && (
+            <motion.ul
+              className="nested-sublist ps-3"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.5, ease: 'easeInOut' }}
+              whileHover={{ scale: 1 }}
             >
-              {item.nestedSubList? 
-              <>
-             
-              <DynamicIcons iconName={item.icon} size={18} />
-              <span
-                className={`${
-                  isExpanded ? "ms-1" : "d-none"
-                } hover:bg-primary`}
+              {item.nestedSubList.map((nestedItem, nestedIndex) => (
+                <li key={nestedIndex} style={{ listStyleType: 'none', color: "black" }}>
+                  <Link
+                    to={nestedItem.link}
+                    onClick={() => width < 450 && isExpanded(false)}
+                  >
+                    <span>{nestedItem.text}</span>
+                  </Link>
+                </li>
+              ))}
+            </motion.ul>
+          )}
+        </>
+      ) : (
+        // Handle the regular link for non-dropdown items
+        <Link
+          to={item.link}
+          onClick={() => width < 450 && isExpanded(false)} // Collapse sidebar for small screens
+        >
+          <DynamicIcons iconName={item.icon} size={18} />
+          <span className={`${isExpanded ? "ms-2" : "d-none"} hover:bg-primary`} style={{ color: "black" }}>
+            {item.text}
+          </span>
+        </Link>
+      )}
+    </motion.li>
+  ) : null
+))}
 
-                style={{
-                  color: "black"
-                }}
-                onClick={()=> toggleSubDropdown(index)}
-              >
-                {item.text}
-
-              {isSubDropdown && (
-                <DynamicIcons  iconName={OpenSublistIndex === index? "ChevronUp" : "ChevronDown"} size={15} color={'blue'} />
-              )}
-              </span>
-
-
-              {OpenSublistIndex === index && item.nestedSubList && (
-               
-                <motion.ul
-                  className="nested-sublist ps-3"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{height: 'auto',opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{
-                    duration: 0.5,
-                    ease: 'easeInOut',
-                  }}
-                  whileHover={{ scale: 1}}
-                >
-                  {item.nestedSubList.map((nestedItem, nestedindex) => (
-                    <li key={nestedindex}
-                    style={{
-                      listStyleType: 'none',
-                      color: "black"
-         
-                    }}
-                    >
-                    <Link to={nestedItem.link}>
-                    <span>
-                    {nestedItem.text}
-                    </span>
-                    </Link>
-                    
-                    </li>
-                    
-                  ))}
-                </motion.ul>
-
-              )}
-
-                {/* <LucideIcon.ChevronUpSquareIcon/> */}
-              </>
-              :
-                <Link to={item.link}>
-                <DynamicIcons iconName={item.icon} size={18} />
-                <span
-                  className={`${
-                    isExpanded ? "ms-2" : "d-none"
-                  } hover:bg-primary`}
-
-                  style={{
-                    color: "black"
-                  }}
-                >
-                  {item.text}
-                </span>
-                </Link>
-            
-               }
-            </motion.li>
-            :
-            ''
-          ))}
         </motion.ul>
       )}
     </>

@@ -23,7 +23,8 @@ function App() {
       // Clear localStorage when the countdown reaches 0
       localStorage.clear();
       return; // Stop the countdown
-    } else if(localStorage.getItem('serv_id') && location.pathname === '/'){
+    }
+    if(localStorage.getItem('serv_id') && location.pathname === '/'){
       localStorage.clear()
     }
 
