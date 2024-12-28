@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Sidebar, { SidebarItem } from '../components/sidebar.jsx';
-import { DatabaseZap, Landmark, LayoutDashboard, ListOrdered, ListTree, MapPinned, PercentIcon, Replace, SendHorizontal, ShoppingCart, UserRoundPlus } from 'lucide-react';
+import { DatabaseZap, Landmark, LayoutDashboard, ListOrdered, ListTree, LogOut, MapPinned, PercentIcon, Replace, SendHorizontal, ShoppingCart, UserRoundPlus } from 'lucide-react';
 
 // Import your page components
 
@@ -226,6 +226,14 @@ function App() {
           onClick={()=> handleItemClick('OutSlip')}
           link={'/OutSlip'}
           
+          />
+
+          <SidebarItem
+          icon={<LogOut size={20}/>}
+          text={'LogOut'}
+          active={activeItem === 'LogOut'}
+          onClick={()=> handleItemClick('LogOut')}
+          link={'/'}
           />
         </Sidebar>
 
