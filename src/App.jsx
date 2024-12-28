@@ -22,7 +22,6 @@ function App() {
     if (duration <= 0) {
       // Clear localStorage when the countdown reaches 0
       localStorage.clear();
-      console.log("Local storage cleared after the timer is done.");
       return; // Stop the countdown
     } else if(localStorage.getItem('serv_id') && location.pathname === '/'){
       localStorage.clear()
