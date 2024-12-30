@@ -7,7 +7,7 @@ import whatsapp from "./../src/assets/whatsapp.png"
 import * as LucideIcon from "lucide-react";
 import {Link,  useLocation } from "react-router-dom";
 import Dashboard from "./dashboard";
-import InventoryRep from './inventory-report'
+import InventoryRep from './Reports/Inventory/inventory-report'
 import InventoryList from "./ListView/InventoryList";
 import CustomerList from "./ListView/CustomerList";
 import SupplierList from "./ListView/SupplierList";
@@ -20,6 +20,9 @@ import Outslip from "../components/Outslip";
 import Activity from "./Sales/SalesActivity/Activity";
 import SalesOrder from "./Sales/SalesOrder/SalesOrder";
 import PurchaseOrder from "./Purchase/PurchaseOrder/PurchaseOrder";
+import IncomeStatement from "./IncomeStatement";
+import InvoiceWiseProfit from "./Reports/Accounts/Invoice_Wise_Profit_Report";
+import ProfitInvoiceCategoryWise from "./Reports/Accounts/ProfitInvoiceCategoryWise";
 
 
 // Dynamic Icon Component
@@ -39,9 +42,16 @@ export default function Sidebar({ children }) {
 
   const location = useLocation(); // Get the current route location
   const isDashboard =location.pathname === '/dashboard'
-  const isInventoryreport = location.pathname ==='/inventory-report'
   const ispurchaseOrder = location.pathname ==='/purchase/POs'
   const isOutSlip= location.pathname ==='/OutSlip'
+  
+  // Reports
+  //  Reports/inventory
+  const isInventoryreport = location.pathname ==='/inventory/inventory-report'
+  // Reports/Account
+  const isInvoiceWiseProfitReport= location.pathname === "/account/iwpr"
+  const isProfitInvoiceCategoryWise = location.pathname === "/account/picw"
+
 
 
   // Sales
@@ -55,15 +65,12 @@ export default function Sidebar({ children }) {
   const isListViewSupplier= location.pathname ==='/List-View/Supplier-List'
 
 
-  // Ip Address and Location
+  // Others
 
   const isIpaddressLocation= location.pathname=== '/ipinfo'
   const isJsonTable= location.pathname=== '/json-form'
-
-  
-  // Employee dataForm
-
   const isEmployeeDataForm= location.pathname==='/EmployeeDataForm'
+  const isIncomeStatement= location.pathname === '/income_statement'
 
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -112,7 +119,7 @@ export default function Sidebar({ children }) {
           </button>
         </div>
 
-        <SidebarContext.Provider value={{ isExpanded }}>
+        <SidebarContext.Provider value={{ isExpanded, setIsExpanded }}>
           <motion.ul
             className="list-unstyled mt-3"
             animate={{
@@ -194,6 +201,18 @@ export default function Sidebar({ children }) {
         {isInventoryreport && (
           <InventoryRep/>
         )}
+
+        {/* Report /Account */}
+        {isInvoiceWiseProfitReport &&(
+          <InvoiceWiseProfit/>
+        )}
+        {isProfitInvoiceCategoryWise &&(
+          <ProfitInvoiceCategoryWise/>
+        )}
+
+
+
+
         {ispurchaseOrder && (
           <PurchaseOrder/>
         )}
@@ -231,6 +250,9 @@ export default function Sidebar({ children }) {
         {isOutSlip&&(
           <Outslip/>
         )}
+        {isIncomeStatement && (
+          <IncomeStatement/>
+        )}
 
 
 
@@ -255,11 +277,9 @@ export function SidebarItem({
   isDropdown = false,
   isSubDropdown = false,
 }) {
-  const { isExpanded } = useContext(SidebarContext);
-  
+  const { isExpanded,  setIsExpanded} = useContext(SidebarContext); 
   const [isOpen, setIsOpen] = useState(false);
   const [OpenSublistIndex, setOpenSublistIndex]=useState(null)
-
   const width=window.innerWidth
 
   const toggleDropdown = () => {
@@ -273,6 +293,12 @@ export function SidebarItem({
     if (onClick) onClick();
   };
 
+  const handleItemClick = () => {
+    if (width/2 < 400) {
+      setIsExpanded(false);
+    }
+  };
+
   return (
     <>
       {/* Sidebar Item */}
@@ -283,16 +309,16 @@ export function SidebarItem({
       backgroundColor: active? 'rgb(0, 123, 255)': '#f8f9fa',
       color: active? '#ffff': 'black',
     }}
-    onClick={isDropdown ? toggleDropdown : onClick}
+    onClick={isDropdown ? toggleDropdown :() => {
+      if(width/2<450){
+        setIsExpanded(false)
+
+      }
+    }}
     whileHover={{ scale: 1.05 }} // Slight zoom on hover
     whileTap={{ scale: 0.95 }} // Slight shrink on click
   >
-    {(isDropdown === false && width<450)?
       <Link to={link}
-      
-      onClick={() => {
-        isExpanded(fal)
-      }}
       style={{
         color: active? "#ffff": 'black'
       }} 
@@ -304,24 +330,6 @@ export function SidebarItem({
         <DynamicIcons iconName={isOpen ? "ChevronUp" : "ChevronDown"} size={15} />
       )}
       </Link>
-    :
-    <Link to={link}
-    
-    onClick={() => {
-      
-    }}
-    style={{
-      color: active? "#ffff": 'black'
-    }} 
-    >
-    {icon}
-    <span className="ms-3" 
-    >{text}</span>
-    {isDropdown && (
-      <DynamicIcons iconName={isOpen ? "ChevronUp" : "ChevronDown"} size={15} />
-    )}
-    </Link>
-    }
   </motion.ul>
 )}
 
@@ -377,7 +385,12 @@ export function SidebarItem({
                 <li key={nestedIndex} style={{ listStyleType: 'none', color: "black" }}>
                   <Link
                     to={nestedItem.link}
-                    onClick={() => width < 450 && isExpanded(false)}
+                    onClick={() => {
+                      if(width/2<450){
+                        setIsExpanded(false)
+              
+                      }
+                    } }
                   >
                     <span>{nestedItem.text}</span>
                   </Link>
@@ -390,7 +403,12 @@ export function SidebarItem({
         // Handle the regular link for non-dropdown items
         <Link
           to={item.link}
-          onClick={() => width < 450 && isExpanded(false)} // Collapse sidebar for small screens
+          onClick={() => {
+            if(width/2<450){
+              setIsExpanded(false)
+    
+            }
+          }} // Collapse sidebar for small screens
         >
           <DynamicIcons iconName={item.icon} size={18} />
           <span className={`${isExpanded ? "ms-2" : "d-none"} hover:bg-primary`} style={{ color: "black" }}>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import JsBarcode from "jsbarcode";
 import { CircleX, PrinterIcon, ScanBarcode } from "lucide-react";
 import { motion } from 'framer-motion';
-import { fetchData } from "./utills/ApiRequest";
+import { fetchData } from "../../utills/ApiRequest";
 
 export default function InventoryRep() {
   const [inventory, setInventory] = useState([]); // Store inventory data
@@ -140,7 +140,7 @@ export default function InventoryRep() {
     <div className="w-100">
       <div className="mt-2 pt-2 ps-2" style={{ minHeight: "40px", borderRadius: "10px" }}>
         <span className="d-flex" style={{ marginLeft: "20px" }}>
-          <b>Inventory </b> / <b> Product</b>
+        <b>Reports </b> &nbsp;/ &nbsp;<b>Inventory </b>  &nbsp;/ &nbsp; <b> Inventory Report</b>
         </span>
       </div>
 

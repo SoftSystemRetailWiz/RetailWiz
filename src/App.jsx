@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import './../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Sidebar, { SidebarItem } from '../components/sidebar.jsx';
-import { DatabaseZap, Landmark, LayoutDashboard, ListOrdered, ListTree, LogOut, MapPinned, PercentIcon, Replace, SendHorizontal, ShoppingCart, UserRoundPlus } from 'lucide-react';
+import { ClipboardList, DatabaseZap, Landmark, LayoutDashboard, ListOrdered, ListTree, LogOut, MapPinned, PercentIcon, Replace, SendHorizontal, ShoppingCart, UserRoundPlus } from 'lucide-react';
 
 // Import your page components
 
@@ -166,7 +166,7 @@ function App() {
                 ]},
               { text: 'Inventory', icon: 'NotepadTextDashed', 
                 nestedSubList:[
-                  {text: 'Inventory Valuation Summary ', link: '/inventory-report'},
+                  {text: 'Inventory Valuation Summary ', link: '/inventory/inventory-report'},
                   {text: 'Inventory Valuation Detail'},
                   {text: 'Inventory Stock Status by Item Vendor'},
                   {text: 'Assembly Shortage By Item'},
@@ -174,6 +174,15 @@ function App() {
                   {text: 'Physical Inventory WorkSheet'},
                   {text: 'Pending Builds'},
                   {text: 'Negative Inventory'},
+                ]},
+              { text: 'Accounts', icon: 'NotepadTextDashed', 
+                nestedSubList:[
+                  {text: 'Invoice Wise Profit Report', link: "/account/iwpr"},
+                  {text: 'Catagory Wise Profit Report', link: "/account/picw"},
+                  {text: 'Payable Report'},
+                  {text: 'Receiable Report'},
+                  {text: 'Expense Report'},
+                  {text: 'Income Statement'},
                 ]},
             ]}
             isDropdown={true}
@@ -227,6 +236,13 @@ function App() {
           link={'/OutSlip'}
           
           />
+           <SidebarItem
+          icon={<ClipboardList/>}
+          text={'Income Statement'}
+          active={activeItem === 'Income Statement'}
+          onClick={()=> handleItemClick('Income Statement')}
+          link={'/income_statement'}
+          />
 
           <SidebarItem
           icon={<LogOut size={20}/>}
@@ -235,14 +251,25 @@ function App() {
           onClick={()=> handleItemClick('LogOut')}
           link={'/'}
           />
+
+         
         </Sidebar>
 
       )}
 
       {/* Define your routes here */}
       <Routes>
+
         <Route path="/dashboard"/>
-        <Route path="/inventory-report" />
+
+        {/* Reports */}
+            {/* inventory */}
+        <Route path="/inventory/inventory-report" />
+            {/* Account */}
+        <Route path="/account/iwpr" />
+        <Route path="/account/picw" />
+
+
         {/* sales */}
         <Route path='/sale/sales_order'/>
         <Route path='/sale/sales_order/print' element={<SalesOrderPrintRender/>}/>
@@ -262,6 +289,7 @@ function App() {
         <Route path='/ipinfo'/>
         <Route path= '/json-form'/>
         <Route path='/EmployeeDataForm'/>
+        <Route path='/income_statement' />
         {/* Add more routes as needed */}
       </Routes>
     </>

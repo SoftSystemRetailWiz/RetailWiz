@@ -95,28 +95,35 @@ function CustomerList() {
     }
 
     return (
-        <div className="mt-5">
-            <div className="col-12 col-md-12 col-sm-12 modal-subdiv-2 d-flex justify-content-between">
+        <div className="mt-5 container-fluid mt-3 col-12 col-md-12 col-sm-12">
+            <div className="row d-flex justify-content-between">
                 <span className="d-flex" style={{ marginLeft: "20px" }}>
                     <b>List View &nbsp; / &nbsp; Customer List</b>
                 </span>
+                <div  className="ms-3 ">
                 <input
-                    className="p-1 ps-2 "
+                    className="p-1 ps-2 mt-1 "
+                    style={{
+                        borderRadius: '10px',
+                        border: 'none'
+                    }}
                     type="text"
                     placeholder="Search"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
-                <div className="d-flex pe-4 ">
-                <button  className="tooltip-container"
-            style={{
-                borderRadius: "10px",
-                border: "1px solid lightgrey",
-                padding: "5px",
-                marginLeft: "30px",
-              }}
-            onClick={generatepdf}
-            >
+
+                </div>
+                <div className="d-flex pe-4 mt-4 ">
+                    <button  className="tooltip-container"
+                    style={{
+                        borderRadius: "10px",
+                        border: "1px solid lightgrey",
+                        padding: "5px",
+                        marginLeft: "30px",
+                    }}
+                    onClick={generatepdf}
+                    >
                 <FaRegFilePdf />
                 <div className="tooltip-text">Generate-Pdf</div>
 

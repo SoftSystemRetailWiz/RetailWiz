@@ -148,4 +148,11 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
+hr{
+    width: 85%;
+    border: 0;
+    height: 2px;
+    margin: 0; /* removes all space around the <hr> */
+    padding: 0; /* ensures no padding is applied */
 
+}

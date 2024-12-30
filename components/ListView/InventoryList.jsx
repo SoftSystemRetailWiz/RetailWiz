@@ -91,20 +91,26 @@ function InventoryList() {
     }
   
     return (
-      <div className="mt-5">
-        <div className="modal-subdiv-2 d-flex justify-content-between">
+      <div className="mt-5 container-fluid mt-3 col-12 col-md-12 col-sm-12">
+        <div className="row d-flex justify-content-between">
         <span className="d-flex" style={{ marginLeft: "20px" }}>
           <b>List View &nbsp; / &nbsp; Inventory List</b>
         </span>
-          <input
-            className="p-1 ps-2"
-            type="text"
-            placeholder="Search"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <div></div>
-          <div className="d-flex pe-4 ">
+        <div className="ms-3 ">
+            <input
+                className="p-1 ps-2 mt-1 "
+                style={{
+                    borderRadius: '10px',
+                    border: 'none'
+                }}
+                type="text"
+                placeholder="Search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+
+            </div>
+          <div className="d-flex pe-4 mt-4">
             <button  className="tooltip-container"
             style={{
                 borderRadius: "10px",
