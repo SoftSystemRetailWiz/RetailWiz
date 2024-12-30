@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Send } from 'lucide-react';
 import { fetchData } from '../../utills/ApiRequest';
 
