@@ -7,6 +7,24 @@ function  ProfitInvoiceCategoryWise() {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [search, setSearch] = useState('');
+    const [total, setTotal]= useState()
+    
+    
+        const handleTotal=()=>{
+            let total= 0
+    
+            activityData.forEach(item => {
+                let data= parseFloat(item.t_sale_value)
+                total += data
+    
+            });
+            setTotal(total)
+        }
+       
+    
+        useEffect(()=>{
+            handleTotal()
+        })
    
    
 
@@ -111,6 +129,9 @@ function  ProfitInvoiceCategoryWise() {
                                 border: '1px solid lightgrey',
                             }}
                         />
+                    </div>
+                    <div>
+                        <span><b>Total Profit: </b>{total}</span>
                     </div>
 
                     <div className="col-md-12 mt-2" style={{ overflowY: 'auto', backgroundColor: 'rgb(232,233,233)', height: '67vh' }}>

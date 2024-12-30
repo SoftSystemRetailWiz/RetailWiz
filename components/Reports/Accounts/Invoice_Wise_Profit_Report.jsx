@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Send } from 'lucide-react';
 import { fetchData } from '../../utills/ApiRequest';
 
@@ -7,7 +7,26 @@ function  InvoiceWiseProfit() {
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [search, setSearch] = useState('');
+
+    const [total, setTotal]= useState()
+
+
+    const handleTotal=()=>{
+        let total= 0
+
+        activityData.forEach(item => {
+            let data= parseFloat(item.t_value)
+            total += data
+
+        });
+        setTotal(total)
+    }
    
+
+    useEffect(()=>{
+        handleTotal()
+    })
+
    
 
 
@@ -115,6 +134,9 @@ function  InvoiceWiseProfit() {
                             }}
                         />
                     </div>
+                    <div>
+                        <span><b>Total Profit: </b>{total}</span>
+                    </div>
 
                     <div className="col-md-12 mt-2" style={{ overflowY: 'auto', backgroundColor: 'rgb(232,233,233)', height: '67vh' }}>
                         <table className="table table-responsive">
@@ -124,19 +146,21 @@ function  InvoiceWiseProfit() {
                                     <th>Date</th>
                                     <th>Descritpion</th>
                                     <th>Qty</th>
-                                    <th>Total Sale Value</th>
-                                    <th>Total value</th>
+                                    <th>Cost</th>
+                                    <th> Sale</th>
+                                    <th>Profit</th>
                                 </tr>
                             </thead>
                             <tbody>
                               {filteredData && filteredData.length>0 ?
                               (
                                 filteredData.map((item, index)=>(
-                                  <tr>
+                                  <tr key={index}>
                                     <td>{item.inv_no}</td>
                                     <td>{new Date(item.dt_date).toLocaleDateString('en-GB')}</td>
                                     <td>{item.item_desc}</td>
                                     <td>{ item.qty}</td>
+                                    <td>{ item.cogs_value}</td>
                                     <td>{item.t_sale_value}</td>
                                     <td>{item.t_value}</td>
                                     

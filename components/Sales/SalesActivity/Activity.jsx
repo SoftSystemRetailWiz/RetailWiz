@@ -92,10 +92,6 @@ function Activity() {
         window.open(url, '_blank', 'noopener,noreferrer');
     };
 
-    const openModal = () => {
-        setModalOpen(true);
-    };
-
 
     return (
         <div id='SalesActivity' className="container-fluid mt-3 col-12 col-md-12 col-sm-12">
@@ -169,7 +165,7 @@ function Activity() {
                                     filteredData.map((item, index) => (
                                         <tr key={index}>
                                             <td>{item.inv_ref}</td>
-                                            <td>{item.inv_date}</td>
+                                            <td>{new Date(item.inv_date).toLocaleDateString('en-GB')}</td>
                                             <td>{item.total_amt}</td>
                                             <td className='d-flex gap-3'>
                                                 <div className='tooltip-container'>
