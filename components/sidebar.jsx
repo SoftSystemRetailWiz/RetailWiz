@@ -74,7 +74,7 @@ export default function Sidebar({ children }) {
   const isIncomeStatement= location.pathname === '/income_statement'
 
   // login page
-  const isLoginPage= location.pathname === '/'
+
   const navigate = useNavigate();
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -91,7 +91,7 @@ export default function Sidebar({ children }) {
 
     // Simulate a delay (2 seconds)
     await new Promise(resolve => setTimeout(resolve, 2000));
-
+    setIsLogout(false);
     navigate('/');
 
   }

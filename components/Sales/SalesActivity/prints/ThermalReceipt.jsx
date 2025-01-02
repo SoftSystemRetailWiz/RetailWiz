@@ -8,6 +8,11 @@ function ThermalReceipt(){
       const rawtotal = localStorage.getItem('a_total');
       const total = JSON.parse(rawtotal);
 
+      const shop_name= localStorage.getItem('shop_name');
+      const shop_address= localStorage.getItem('shop_address');
+      const phone_no= localStorage.getItem('phone_no');
+  
+
   
       const selectivekeys = [ 'rate', 'qty', 'item_desc_invoice'];
       const header = data.length > 0 ? 
@@ -40,8 +45,9 @@ function ThermalReceipt(){
             <div></div>
             <div></div>
           </div>
-          <h4 style={{ fontSize: '16px' }}>{headData['fld_brand']}</h4>
-          <p style={{ fontSize: '12px' }}>{headData['address']}</p>
+          <h4 style={{ fontSize: '16px' }}>{shop_name}</h4>
+          <p style={{ fontSize: '14px' }}>{shop_address}</p>
+          <p style={{ fontSize: '14px' }}>{phone_no}</p>
           <h6 style={{ fontSize: '14px' }}>Sales Receipt</h6>
           <p style={{ fontSize: '12px' }}>Invoice No: {headData['inv_no']}</p>
           <p style={{ fontSize: '12px' }}>Date: {headData['inv_date']}</p>

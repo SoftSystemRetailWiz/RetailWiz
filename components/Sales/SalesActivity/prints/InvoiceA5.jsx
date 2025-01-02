@@ -12,6 +12,11 @@ function InvoiceA5(){
     const total = JSON.parse(rawtotal);
    
 
+    const shop_name= localStorage.getItem('shop_name');
+    const shop_address= localStorage.getItem('shop_address');
+    const phone_no= localStorage.getItem('phone_no');
+
+
     const selectivekeys = ['discount', 'rate', 'qty', 'item_desc_invoice'];
     const header = data.length > 0 ? 
     Object.keys(data[0]).filter((key) => selectivekeys.includes(key)).reverse() 
@@ -52,8 +57,9 @@ function InvoiceA5(){
                     />
                     </div>
                     <div style={{ textAlign: 'center', width: '70mm' }}>
-                        <h4>{headData['fld_brand']}</h4>
-                        <p>{headData['address']}</p>
+                        <h4>{shop_name}</h4>
+                        <p>{shop_address}</p>
+                        <p>{phone_no}</p>
                     </div>
                     <div style={{width: '70mm'}}></div>
                 </div>

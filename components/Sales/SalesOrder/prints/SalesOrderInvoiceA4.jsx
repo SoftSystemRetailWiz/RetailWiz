@@ -1,5 +1,6 @@
 
 import React, { useEffect } from 'react';
+import logo from "../../../../src/assets/logo.png"
 
 
 function SalesOrderInvoiceA4(){
@@ -10,6 +11,11 @@ function SalesOrderInvoiceA4(){
     const rawtotal = localStorage.getItem('total');
     const total = JSON.parse(rawtotal);
     
+
+    const shop_name= localStorage.getItem('shop_name');
+    const shop_address= localStorage.getItem('shop_address');
+    const phone_no= localStorage.getItem('phone_no');
+
     const selectivekeys = ['item_desc', 'qty', 'rate'];
     const header =  Object.keys(data[0])
     .filter((key)=> selectivekeys.includes(key))
@@ -41,12 +47,21 @@ function SalesOrderInvoiceA4(){
                 <div className='container-fluid d-flex justify-content-between'
                 >
                     {/* Title Section */}
-                    <div></div>
-                    <div style={{ textAlign: 'center' }}>
-                        <h4>{headData['fld_brand']}</h4>
-                        <p>{headData['address']}</p>
+                    <div style={{width: '70mm'}}>
+                    <img
+                        src={logo} 
+                        alt="" 
+                        style={{
+                        width: '125px'
+                        }}
+                    />
                     </div>
-                    <div></div>
+                    <div style={{ textAlign: 'center' ,width: '70mm'}}>
+                        <h4>{shop_name}</h4>
+                        <p>{shop_address}</p>
+                        <p>{phone_no}</p>
+                    </div>
+                    <div style={{width: '70mm'}}></div>
                 </div>
 
                 {/* Header Section */}

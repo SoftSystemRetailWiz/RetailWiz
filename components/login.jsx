@@ -14,6 +14,22 @@ function Login() {
   const [loader, setLoader]=useState(false)
   const navigate= useNavigate()
 
+  const globaldata = [{
+    shop_name:"Mirza Traders",
+    shop_address: '',
+    dept_var:'1',
+    sys_type: 'Main',
+    loc_id: '1',
+    phone_no: '0333-1x345x7',
+    purdesign: '',
+    saledesign: '',
+
+  }]
+  const key=Object.keys(globaldata[0])
+  // console.log(key)
+  // for (let i=0; i<key.length; i++){
+  //   console.log(key[i]) 
+  // }
   const handleLogin = async (e) => {
     setLoader(true)
     e.preventDefault();
@@ -57,6 +73,9 @@ function Login() {
             // Successfully retrieved servId, proceed to next steps
             localStorage.setItem('serv_id', servId)
             setLoginError(false);
+            key.map((_key)=>{
+                localStorage.setItem(_key, globaldata[0][_key])
+            })
             navigate('/dashboard')
           } else {
             // Handle missing servId

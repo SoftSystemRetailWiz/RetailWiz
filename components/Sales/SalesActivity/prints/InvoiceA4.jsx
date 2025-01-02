@@ -6,6 +6,17 @@ import logo from "../../../../src/assets/logo.png"
 function InvoiceA4(){
     const data1= localStorage.getItem('invoiceViewRef');
     const data= JSON.parse(data1);
+
+
+    //  storage data
+
+    const shop_name= localStorage.getItem('shop_name');
+    const shop_address= localStorage.getItem('shop_address');
+    const phone_no= localStorage.getItem('phone_no');
+
+    console.log('shop name:', shop_name);
+    console.log('shop address:', shop_address);
+    console.log('phone no:', phone_no);
     
 
     const selectivekeys = ['discount', 'rate', 'qty', 'item_desc_invoice'];
@@ -51,8 +62,9 @@ function InvoiceA4(){
                     />
                     </div >
                     <div style={{ textAlign: 'center', width: '70mm' }}>
-                        <h4>{headData['fld_brand']}</h4>
-                        <p>{headData['address']}</p>
+                        <h4>{shop_name}</h4>
+                        <p>{shop_address}</p>
+                        <p>{phone_no}</p>
                     </div>
                     <div style={{width: '70mm'}}></div>
                 </div>
