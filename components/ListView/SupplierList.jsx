@@ -5,16 +5,19 @@ import "jspdf-autotable";  // Import the autoTable plugin
 import { FaRegFilePdf } from "react-icons/fa";
 import { BsFiletypeCsv } from "react-icons/bs";
 import { fetchData } from "../utills/ApiRequest";
+import Loader from "../Loader/Loader";
 
 
 function SupplierList() {
     const [Supplier, setSupplier] = useState([]); // Store inventory data
     const [searchTerm, setSearchTerm] = useState(""); // Search term for modal
+    const [isLoading , setIsLoading] = useState(false)
   
     const serv_id = localStorage.getItem('serv_id');
   
     const fetchSupplierData = async () => {
         const storedSupplier = localStorage.getItem("Supplier");
+        setIsLoading(true)
     
         if (!storedSupplier) {
             const result = await fetchData(
@@ -46,6 +49,7 @@ function SupplierList() {
                 setSupplier([]); // Ensure state is an array
             }
         }
+        setIsLoading(false)
     };
     
     const handleDateFormat=(timestamp)=>{
@@ -184,18 +188,29 @@ function SupplierList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredSupplier.map((item, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{item.cust_name? item.cust_name: '0'}</td>
-                                <td>{item.cust_code? item.cust_code: '0'}</td>
-                                <td>{item.cust_bal? item.cust_bal: '0'}</td>
-                                <td>{item.ph_no? item.ph_no: '0'}</td>
-                                <td>{item.Last_pur_sal_date? handleDateFormat(item.Last_pur_sal_date): ' '}</td>
-                                <td>{item.Last_trans_date? handleDateFormat(item.Last_trans_date): ' '}</td>
-                                <td>{item.active? 'Active': 'In-Active'}</td>
-                            </tr>
-                        ))}
+                        {isLoading?
+                        (
+                            <td>
+                                <tr><Loader/></tr>
+                            </td>
+                        )  
+                        :
+                        (
+
+                            filteredSupplier.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{item.cust_name? item.cust_name: '0'}</td>
+                                    <td>{item.cust_code? item.cust_code: '0'}</td>
+                                    <td>{item.cust_bal? item.cust_bal: '0'}</td>
+                                    <td>{item.ph_no? item.ph_no: '0'}</td>
+                                    <td>{item.Last_pur_sal_date? handleDateFormat(item.Last_pur_sal_date): ' '}</td>
+                                    <td>{item.Last_trans_date? handleDateFormat(item.Last_trans_date): ' '}</td>
+                                    <td>{item.active? 'Active': 'In-Active'}</td>
+                                </tr>
+                            ))
+                        )  
+                    }
                     </tbody>
                 </table>
             </div>

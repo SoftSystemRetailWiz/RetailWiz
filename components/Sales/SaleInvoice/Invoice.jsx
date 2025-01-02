@@ -1,4 +1,4 @@
-import { CircleX, Search, UserPlus } from 'lucide-react';
+import { CircleX, Loader, Search, UserPlus } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { fetchData } from '../../utills/ApiRequest';
 
@@ -16,6 +16,7 @@ function Invoice() {
     const [totalDiscount, setTotalDiscount] = useState(0);
     const [totalAmount, setTotalAmount] = useState(0);
     const [customerName, setCustomerName] = useState('');
+
 
     const [showDropup, setShowDropUp]=useState(false)
 
@@ -261,17 +262,37 @@ function Invoice() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {filteredInventoryData.map((item, index) => (
-                                            <tr
-                                                key={index}
-                                                onClick={() => handleItemClick(item)}
-                                                style={{ cursor: 'pointer' }}
-                                            >
-                                                <td>{item.item_code}</td>
-                                                <td>{item.Item_desc}</td>
-                                                <td>{item.rate}</td>
-                                            </tr>
-                                        ))}
+                                        {inventory?
+                                        (
+                                            filteredInventoryData? 
+                                            (
+                                            filteredInventoryData.map((item, index) => (
+                                                <tr
+                                                    key={index}
+                                                    onClick={() => handleItemClick(item)}
+                                                    style={{ cursor: 'pointer' }}
+                                                >
+                                                    <td>{item.item_code}</td>
+                                                    <td>{item.Item_desc}</td>
+                                                    <td>{item.rate}</td>
+                                                </tr>
+                                            ))
+                                            )
+                                            :
+                                            (
+                                                <tr>
+                                                    <td>Data not Found</td>
+                                                </tr>
+                                                
+                                            )
+                                        )
+                                        
+                                        :
+                                        
+                                        (
+                                            <Loader/>
+                                        )}
+                                       
                                     </tbody>
                                 </table>
                             </div>
@@ -310,16 +331,34 @@ function Invoice() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {filteredCustomerData.map((item, index) => (
-                                        <tr
-                                            key={index}
-                                            onClick={() => handleCustomerClick(item.cust_name)}
-                                            style={{ cursor: 'pointer' }}
-                                        >
-                                            <td>{item.cust_name}</td>
-                                            <td>{item.ph_no}</td>
-                                        </tr>
-                                    ))}
+                                    {customer? 
+                                    (
+                                        filteredCustomerData? 
+                                        (
+                                            filteredCustomerData.map((item, index) => (
+                                                <tr
+                                                    key={index}
+                                                    onClick={() => handleCustomerClick(item.cust_name)}
+                                                    style={{ cursor: 'pointer' }}
+                                                >
+                                                    <td>{item.cust_name}</td>
+                                                    <td>{item.ph_no}</td>
+                                                </tr>
+                                            ))
+                                        )
+                                        :
+                                        (
+                                            <tr>
+                                                <td>Data not Found</td>
+                                            </tr>
+                                        )
+                                        
+                                    )
+                                    :
+                                    (
+                                        <Loader/>
+                                    )}
+                                    
                                 </tbody>
                             </table>
                             </div>

@@ -6,7 +6,7 @@ import { ArrowDownToLine } from 'lucide-react';
 import { jsPDF } from 'jspdf'; // Make sure to import jsPDF
 import html2canvas from 'html2canvas';
 
-function PurchaseOrderPrintRender(){
+function PurchaseOrderPrintRender() {
     const [A4, setA4] = useState(true);
     const [A5, setA5] = useState(false);
     const [thermal, setThermal] = useState(false);
@@ -22,7 +22,7 @@ function PurchaseOrderPrintRender(){
 
             // Add the image to the PDF with the adjusted width and height
             doc.addImage(imgData, 'PNG', 10, 10, newWidth, newHeight);
-            doc.save('SalesActivity.pdf');
+            A4? doc.save('PurchaseOrderA4.pdf'): A5?  doc.save('PurchaseOrderA5.pdf'): doc.save('PurchaseOrderThermal.pdf')
         });
     }
 
@@ -46,12 +46,11 @@ function PurchaseOrderPrintRender(){
 
     const handlePrint = () => {
         const printContents = document.getElementById('printScreen').innerHTML;
-        const originalContents = document.body.innerHTML;
 
         document.body.innerHTML = printContents;
         window.print();
+        window.location.reload()
 
-        document.body.innerHTML = originalContents;
     };
 
     return (
@@ -90,7 +89,7 @@ function PurchaseOrderPrintRender(){
 
             <div id="printScreen">
                 {A4 && <PurchaseOrderInvoiceA4 />}
-                {A5 && < PurchaseOrderInvoiceA5 />}
+                {A5 && <PurchaseOrderInvoiceA5 />}
                 <div className="container-fluid d-flex justify-content-between">
                     {thermal && <PurchaseOrderThermalReceipt className="thermal-receipt" />}
                 </div>

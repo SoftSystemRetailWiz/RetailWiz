@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FilePenLine, Printer, Send } from 'lucide-react';
 import { fetchData } from '../../utills/ApiRequest';
+import Loader from '../../Loader/Loader'
 
 function PurchaseOrder() {
     const [purchaseData, setPurchaseData] = useState([]);
@@ -93,7 +94,9 @@ function PurchaseOrder() {
 
     return (
         <div id='SalesActivity' className="container-fluid mt-3 col-12 col-md-12 col-sm-12">
-            <div className="row">
+            {purchaseData?
+
+            (<div className="row">
                 <div className="col-12 col-md-12 mb-1">
                 <span className="d-flex" style={{ marginLeft: "20px" }}>
                 <b>purchase &nbsp; / &nbsp; purchase Order</b>
@@ -166,8 +169,14 @@ function PurchaseOrder() {
                         </table>
                     </div>
                 </div>
-            </div>
-
+            </div>)
+            :
+            (
+                <div className='row'>
+                    <Loader/>
+                </div>
+            )
+            }
 
            
         </div>

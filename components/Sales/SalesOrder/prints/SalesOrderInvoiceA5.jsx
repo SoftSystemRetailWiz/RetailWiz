@@ -5,39 +5,23 @@ import React, { useEffect } from 'react';
 function SalesOrderInvoiceA5(){
     const data1= localStorage.getItem('salesOrderViewRef');
     const data= JSON.parse(data1);
-    console.log(JSON.stringify(data))
-
+   
     const rawtotal = localStorage.getItem('total');
     const total = JSON.parse(rawtotal);
-    console.log('total:', total);
+    
 
     const selectivekeys = ['item_desc', 'qty', 'rate'];
-    const header = data.length > 0
-    ? Object.keys(data[0])
+    const header = Object.keys(data[0])
     .filter((key)=> selectivekeys.includes(key))
     .sort((a,b)=> selectivekeys.indexOf(a)- selectivekeys.indexOf(b))
-    : 
-    [];
+
 
     const headData =data[0]
-    console.log('headData:', headData);
+   
 
-    useEffect(() => {
-        const handleBeforeUnload = () => {
-            localStorage.removeItem('salesOrderViewRef');
-            localStorage.removeItem('total');
-        };
-
-        window.addEventListener('beforeunload', handleBeforeUnload);
-
-        // Cleanup function to remove the event listener
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, []);
 
     return (
-        <div
+        <div className='printScreen'
             style={{
                 width: '148mm',
                 height: '210mm',

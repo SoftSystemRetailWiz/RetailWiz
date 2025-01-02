@@ -24,18 +24,7 @@ function PurchaseOrderInvoiceA4(){
     let headData =data[0]
     console.log('headData:', headData);
 
-    useEffect(() => {
-        const handleBeforeUnload = () => {
-            localStorage.removeItem('PurchaseOrderViewRef');
-        };
-
-        window.addEventListener('beforeunload', handleBeforeUnload);
-
-        // Cleanup function to remove the event listener
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, []);
+   
 
 
 

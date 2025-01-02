@@ -30,7 +30,7 @@ function App() {
 
     const timer = setInterval(() => {
       setDuration((prevDuration) => prevDuration - 1);
-    }, 1000); // Decrement every second
+    }, 20000); // Decrement every second
 
     return () => clearInterval(timer); // Cleanup on unmount or when duration changes
   }, [duration]);
@@ -290,7 +290,7 @@ function App() {
         <Route path= '/json-form'/>
         <Route path='/EmployeeDataForm'/>
         <Route path='/income_statement' />
-        {/* Add more routes as needed */}
+        {/* LogOut Message*/}
       </Routes>
     </>
     ):(

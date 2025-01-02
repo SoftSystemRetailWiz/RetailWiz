@@ -4,15 +4,18 @@ import "jspdf-autotable";  // Import the autoTable plugin
 import { FaRegFilePdf } from "react-icons/fa";
 import { BsFiletypeCsv } from "react-icons/bs";
 import { fetchData } from "../utills/ApiRequest";
+import Loader from "../Loader/Loader"
 
 function InventoryList() {
     const [inventory, setInventory] = useState([]); // Store inventory data
     const [searchTerm, setSearchTerm] = useState(""); // Search term for modal
+    const [isLoading , setIsLoading] = useState(false)
   
     const serv_id = localStorage.getItem('serv_id');
   
     // Fetch inventory data via SOAP
     const fetchInventoryData = async () => {
+      setIsLoading(true)
       if (!localStorage.getItem("inventory")) {
         const result = await fetchData('inventory_rep', [{ parameter: 'serv_id', value: serv_id }], 'inventory_repResponse', 'inventory_repResult');
         if (result) {
@@ -24,6 +27,7 @@ function InventoryList() {
         const storedInventory = JSON.parse(localStorage.getItem("inventory"));
         setInventory(storedInventory);
       }
+      setIsLoading(false)
     };
   
     useEffect(() => {
@@ -154,17 +158,30 @@ function InventoryList() {
               </tr>
             </thead>
             <tbody className="modal-subdiv-3-table-body">
-              {filteredInventory.map((item, index) => (
-                <tr className="modal-subdiv-3-table-body-tr" key={index}>
-                  <td>{index + 1}</td>
-                  <td>{item.item_code}</td>
-                  <td>{item.Item_desc}</td>
-                  <td>{item.catagory}</td>
-                  <td>{item.cost}</td>
-                  <td>{item.rate}</td>
-                  <td>{item.cost + item.rate}</td>
+              {isLoading?
+              (
+                <tr>
+                  <td>
+                    <Loader/>
+                  </td>
                 </tr>
-              ))}
+              )
+              :
+              (
+
+                filteredInventory.map((item, index) => (
+                  <tr className="modal-subdiv-3-table-body-tr" key={index}>
+                    <td>{index + 1}</td>
+                    <td>{item.item_code}</td>
+                    <td>{item.Item_desc}</td>
+                    <td>{item.catagory}</td>
+                    <td>{item.cost}</td>
+                    <td>{item.rate}</td>
+                    <td>{item.cost + item.rate}</td>
+                  </tr>
+                ))
+              )
+            }
             </tbody>
           </table>
         </div>

@@ -46,12 +46,11 @@ function SalesActivityPrintRender() {
 
     const handlePrint = () => {
         const printContents = document.getElementById('printScreen').innerHTML;
-        const originalContents = document.body.innerHTML;
 
         document.body.innerHTML = printContents;
         window.print();
+        window.location.reload()
 
-        document.body.innerHTML = originalContents;
     };
 
     return (

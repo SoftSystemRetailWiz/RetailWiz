@@ -5,14 +5,17 @@ import { FaRegFilePdf } from "react-icons/fa";
 import { BsFiletypeCsv } from "react-icons/bs";
 import { fetchData } from "../utills/ApiRequest";
 import { format, parseISO} from 'date-fns'
+import Loader from "../Loader/Loader";
 
 function CustomerList() {
     const [customer, setCustomer] = useState([]); // Store inventory data
     const [searchTerm, setSearchTerm] = useState(""); // Search term for modal
+    const [isLoading , setIsLoading] = useState(false)
   
     const serv_id = localStorage.getItem('serv_id');
   
     const fetchCustomerData = async () => {
+        setIsLoading(true)
         if (!localStorage.getItem("Customer")) {
             const result = await fetchData('customer_list', [{ parameter: 'serv_id', value: serv_id }], 'customer_listResponse', 'customer_listResult');
             if (result) {
@@ -24,9 +27,11 @@ function CustomerList() {
             const storedCustomer = JSON.parse(localStorage.getItem("Customer"));
             setCustomer(storedCustomer);
         }
+        setIsLoading(false)
     };
   
     useEffect(() => {
+
         fetchCustomerData();
     }, []);
   
@@ -158,17 +163,31 @@ function CustomerList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredCustomer.map((item, index) => (
-                            <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td>{item.cust_name? item.cust_name: '0'}</td>
-                                <td>{item.ph_no? item.ph_no: '0'}</td>
-                                <td>{item.Last_pur_sal_date? handleDateFormat(item.Last_pur_sal_date): ' '}</td>
-                                <td>{item.Last_trans_date? handleDateFormat(item.Last_trans_date): ' '}</td>
-                                <td>{item.prv_bal? item.prv_bal: '0'}</td>
-                                <td>{item.current_bal? item.current_bal: '0'}</td>
+                        {isLoading? 
+                        
+                        (
+                            <tr>
+                                <td>
+                                    <Loader/>
+                                </td>
                             </tr>
-                        ))}
+                        )
+                        :
+                        (
+                            filteredCustomer.map((item, index) => (
+                                <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>{item.cust_name? item.cust_name: '0'}</td>
+                                    <td>{item.ph_no? item.ph_no: '0'}</td>
+                                    <td>{item.Last_pur_sal_date? handleDateFormat(item.Last_pur_sal_date): ' '}</td>
+                                    <td>{item.Last_trans_date? handleDateFormat(item.Last_trans_date): ' '}</td>
+                                    <td>{item.prv_bal? item.prv_bal: '0'}</td>
+                                    <td>{item.current_bal? item.current_bal: '0'}</td>
+                                </tr>
+                            ))
+                        )
+                        }
+                       
                     </tbody>
                 </table>
             </div>

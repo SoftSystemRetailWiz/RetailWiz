@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FilePenLine, Printer, Send } from 'lucide-react';
 import { fetchData } from '../../utills/ApiRequest';
+import Loader from '../../Loader/Loader';
+
 
 function SalesOrder() {
     const [orderData, setOrderData] = useState([]);
@@ -129,43 +131,51 @@ function SalesOrder() {
                                 </tr>
                             </thead>
                             <tbody>
-                            {filteredData && filteredData.length > 0 ? (
-                                filteredData.map((item, index) => (
-                                    <tr key={index} className='align-item-center'>
-                                        <td>{item.cust_name}</td>
-                                        <td>{new Date(item.ord_date).toLocaleDateString('en-GB')}</td>
-                                        {/* Format delivery_date to dd-mm-yyyy */}
-                                        <td>{new Date(item.delivery_date).toLocaleDateString('en-GB')}</td>
-                                        <td>{item.total_amount}</td>
-                                            <td className='d-flex gap-3'>
-                                               
-
-                                                <div className='tooltip-container'>
-                                                    <button
-                                                        className="btn btn-outline-danger btn-sm"
-                                                    >
-                                                        <FilePenLine size={'12px'} />
-                                                    </button>
-                                                    <div className="tooltip-text">Modify</div>
-                                                </div>
-
-                                                <div className='tooltip-container'>
-                                                    <button
-                                                        className="btn btn-outline-success btn-sm"
-                                                        onClick={() => handleSalesOrderView(item.ref_doc_no, item.total_amount)} 
-                                                    >
-                                                        <Printer size={'16px'} />
-                                                    </button>
-                                                    <div className="tooltip-text">Print</div>
-                                                </div>
-                                            </td>
+                               {orderData? 
+                               (
+                                filteredData && filteredData.length > 0 ? (
+                                    filteredData.map((item, index) => (
+                                        <tr key={index} className='align-item-center'>
+                                            <td>{item.cust_name}</td>
+                                            <td>{new Date(item.ord_date).toLocaleDateString('en-GB')}</td>
+                                            {/* Format delivery_date to dd-mm-yyyy */}
+                                            <td>{new Date(item.delivery_date).toLocaleDateString('en-GB')}</td>
+                                            <td>{item.total_amount}</td>
+                                                <td className='d-flex gap-3'>
+                                                   
+    
+                                                    <div className='tooltip-container'>
+                                                        <button
+                                                            className="btn btn-outline-danger btn-sm"
+                                                        >
+                                                            <FilePenLine size={'12px'} />
+                                                        </button>
+                                                        <div className="tooltip-text">Modify</div>
+                                                    </div>
+    
+                                                    <div className='tooltip-container'>
+                                                        <button
+                                                            className="btn btn-outline-success btn-sm"
+                                                            onClick={() => handleSalesOrderView(item.ref_doc_no, item.total_amount)} 
+                                                        >
+                                                            <Printer size={'16px'} />
+                                                        </button>
+                                                        <div className="tooltip-text">Print</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="4">No data available</td>
                                         </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="4">No data available</td>
-                                    </tr>
-                                )}
+                                    )
+                               )
+                               :
+                               (
+                                <Loader/>
+                               )} 
+                            
                             </tbody>
                         </table>
                     </div>

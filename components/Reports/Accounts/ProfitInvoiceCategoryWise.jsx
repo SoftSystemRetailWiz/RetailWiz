@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import { Send } from 'lucide-react';
 import { fetchData } from '../../utills/ApiRequest';
+import Loader from '../../Loader/Loader';
 
 function  ProfitInvoiceCategoryWise() {
     const [activityData, setActivityData] = useState([]);
@@ -8,6 +9,9 @@ function  ProfitInvoiceCategoryWise() {
     const [endDate, setEndDate] = useState('');
     const [search, setSearch] = useState('');
     const [total, setTotal]= useState()
+    const [isLoading, setIsLoading] = useState(false)
+
+
     
     
         const handleTotal=()=>{
@@ -49,6 +53,7 @@ function  ProfitInvoiceCategoryWise() {
     const serv_id = localStorage.getItem('serv_id');
 
     const fetch_Data = async (st_date, ed_date) => {
+        setIsLoading(true)
         try {
             const result = await fetchData('profit_inv_cat_get', [
                 { parameter: 'serv_id', value: serv_id },
@@ -66,6 +71,7 @@ function  ProfitInvoiceCategoryWise() {
         } catch (error) {
             console.error("Error fetching data:", error);
         }
+        setIsLoading(false)
     };
 
    
@@ -145,26 +151,42 @@ function  ProfitInvoiceCategoryWise() {
                                 </tr>
                             </thead>
                             <tbody>
-                              {filteredData && filteredData.length>0 ?
-                              (
-                                filteredData.map((item, index)=>(
-                                  <tr>
-                                    <td>{item.catagory}</td>
-                                    <td>{ item.qty}</td>
-                                    <td>{item.t_sale_value}</td>
-                                    
-                                    
-                                </tr>
-                                  
-                                
-                                )))
-                              :
-                              (
-                                <tr>
-                                  <td>No Data Found</td>
-                                </tr>
-                              )
-                              }
+                                {isLoading? 
+                                 
+                                 (
+                                    <tr>
+                                        <td colSpan='3'>
+
+                                        <Loader/> 
+                                        </td>
+                                    </tr>
+                                 )
+                                 :
+                                (
+                                    filteredData && filteredData.length>0 ?
+                                        (
+                                          filteredData.map((item, index)=>(
+                                            <tr>
+                                              <td>{item.catagory}</td>
+                                              <td>{ item.qty}</td>
+                                              <td>{item.t_sale_value}</td>
+                                              
+                                              
+                                          </tr>
+                                            
+                                          
+                                          )))
+                                        :
+                                        (
+                                          <tr>
+                                            <td>No Data Found</td>
+                                          </tr>
+                                        )
+                                        
+                                )
+                               
+                            }
+                             
                             </tbody>
                         </table>
                     </div>

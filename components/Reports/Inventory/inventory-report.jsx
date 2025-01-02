@@ -3,6 +3,7 @@ import JsBarcode from "jsbarcode";
 import { CircleX, PrinterIcon, ScanBarcode } from "lucide-react";
 import { motion } from 'framer-motion';
 import { fetchData } from "../../utills/ApiRequest";
+import Loader from "../../Loader/Loader"; // Ensure your Loader component is correctly imported
 
 export default function InventoryRep() {
   const [inventory, setInventory] = useState([]); // Store inventory data
@@ -10,6 +11,7 @@ export default function InventoryRep() {
   const [barcodes, setBarcodes] = useState([]); // Store generated barcodes
   const [showModal, setShowModal] = useState(false); // Control modal visibility
   const [showSubModal, setShowSubModal] = useState(false); // Control SubModal visibility
+  const [isLoading, setIsLoading] = useState(false); // Loader state for inventory data
 
   const handleShowBarcodeModel = () => setShowModal(true);
   const handleCloseBarcodeModel = () => {
@@ -26,22 +28,29 @@ export default function InventoryRep() {
     setShowSubModal(false);
   };
 
-  const serv_id= localStorage.getItem('serv_id')
+  const serv_id = localStorage.getItem('serv_id')
+
   // Fetch inventory data via SOAP
-   const fetchInventoryData = async () => {
-        if (!localStorage.getItem("inventory")) {
-          const result = await fetchData('inventory_rep', [{ parameter: 'serv_id', value: serv_id }], 'inventory_repResponse', 'inventory_repResult');
-          if (result) {
-            const inventoryData = JSON.parse(result);
-            localStorage.setItem("inventory", JSON.stringify(inventoryData)); // Save to localStorage
-            setInventory(inventoryData);
-          }
-        } else {
-          const storedInventory = JSON.parse(localStorage.getItem("inventory"));
-          setInventory(storedInventory);
+  const fetchInventoryData = async () => {
+    setIsLoading(true); // Start the loader
+    if (!localStorage.getItem("inventory")) {
+      try {
+        const result = await fetchData('inventory_rep', [{ parameter: 'serv_id', value: serv_id }], 'inventory_repResponse', 'inventory_repResult');
+        if (result) {
+          const inventoryData = JSON.parse(result);
+          localStorage.setItem("inventory", JSON.stringify(inventoryData)); // Save to localStorage
+          setInventory(inventoryData);
         }
-      };
-    
+      } catch (error) {
+        console.error('Error fetching inventory data:', error);
+      }
+    } else {
+      const storedInventory = JSON.parse(localStorage.getItem("inventory"));
+      setInventory(storedInventory);
+    }
+    setIsLoading(false); // Stop the loader once data is fetched
+  };
+
   useEffect(() => {
     fetchInventoryData();
   }, []);
@@ -97,45 +106,38 @@ export default function InventoryRep() {
     });
 
     setBarcodes(generatedBarcodes); // Update state with generated barcodes
-
-
-
-
-    
 };
 
-
-
-    // printing barcode
-
-    const handlePrint = () => {
-      const printContents = document.getElementById('barcode-print-section').innerHTML;
-      const printWindow = window.open('', '_blank');
-      printWindow.document.write(`
-        <html>
-          <head>
-            <title>Print Barcodes</title>
-            <style>
-              /* Ensure page breaks after each barcode */
-              @media print {
-                div {
-                  page-break-after: always;
-                }
-                img {
-                  width: 100%; /* Optional: Adjust based on your need */
-                  height: auto;
-                }
+  // printing barcode
+  const handlePrint = () => {
+    const printContents = document.getElementById('barcode-print-section').innerHTML;
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Print Barcodes</title>
+          <style>
+            /* Ensure page breaks after each barcode */
+            @media print {
+              div {
+                page-break-after: always;
               }
-            </style>
-          </head>
-          <body>${printContents}</body>
-        </html>
-      `);
-      printWindow.document.close();
-      printWindow.focus();
-      printWindow.print();
-      printWindow.close();
-    };
+              img {
+                width: 100%; /* Optional: Adjust based on your need */
+                height: auto;
+              }
+            }
+          </style>
+        </head>
+        <body>${printContents}</body>
+      </html>
+    `);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+  };
+
   return (
     <div className="w-100">
       <div className="mt-2 pt-2 ps-2" style={{ minHeight: "40px", borderRadius: "10px" }}>
@@ -281,12 +283,8 @@ export default function InventoryRep() {
               </div>
             ))}
           </div>
-
-
-    
   </motion.div>
 )}
-
 
             <div className="modal-subdiv-2 d-flex justify-content-center">
               <input
@@ -295,7 +293,7 @@ export default function InventoryRep() {
                 placeholder="Search"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
- />
+              />
             </div>
 
             <div className="modal-subdiv-3">
@@ -313,20 +311,22 @@ export default function InventoryRep() {
                   </tr>
                 </thead>
                 <tbody className="modal-subdiv-3-table-body">
-                  {filteredInventory.map((item, index) => (
-                    <tr className="modal-subdiv-3-table-body-tr" key={index}>
-                      <td>
-                        <input type="checkbox" />
-                      </td>
-                      <td>{index + 1}</td>
-                      <td>{item.item_code}</td>
-                      <td>{item.Item_desc}</td>
-                      <td>{item.catagory}</td>
-                      <td>
-                        <input className="noOfBarCode" type="number" min="0" />
-                      </td>
-                    </tr>
-                  ))}
+                 
+                    {filteredInventory.map((item, index) => (
+                      <tr className="modal-subdiv-3-table-body-tr" key={index}>
+                        <td>
+                          <input type="checkbox" />
+                        </td>
+                        <td>{index + 1}</td>
+                        <td>{item.item_code}</td>
+                        <td>{item.Item_desc}</td>
+                        <td>{item.catagory}</td>
+                        <td>
+                          <input className="noOfBarCode" type="number" min="0" />
+                        </td>
+                      </tr>
+                    ))}
+                  
                 </tbody>
               </table>
             </div>
@@ -365,7 +365,14 @@ export default function InventoryRep() {
               </tr>
             </thead>
             <tbody>
-              {inventory.map((item, index) => (
+            {isLoading ? (
+                <tr>
+                  <td colSpan="6" className="text-center">
+                    <Loader /> {/* Show the loader while fetching data */}
+                  </td>
+                </tr>
+              ) : (
+              inventory.map((item, index) => (
                 <tr key={index}>
                   <th scope="row">{index + 1}</th>
                   <td>{item.item_code}</td>
@@ -375,11 +382,12 @@ export default function InventoryRep() {
                   <td>{item.rate}</td>
                   <td>{item.cost + item.rate}</td>
                 </tr>
-              ))}
+              ))
+              )}
             </tbody>
           </table>
         </div>
      
     </div>
   );
-} 
+}

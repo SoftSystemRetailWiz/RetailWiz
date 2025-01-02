@@ -8,29 +8,12 @@ function PurchaseOrderThermalReceipt(){
      
   
       const selectivekeys = ['item_desc', 'qty', 'rate'];
-    const header = data.length > 0
-    ? Object.keys(data[0])
+    const header = Object.keys(data[0])
     .filter((key)=> selectivekeys.includes(key))
     .sort((a,b)=> selectivekeys.indexOf(a)- selectivekeys.indexOf(b))
-    : 
-    [];
-  
       const headData =data[0]
       console.log('headData:', headData);
-  
-      useEffect(() => {
-          const handleBeforeUnload = () => {
-              localStorage.removeItem('PurchaseOrderViewRef');
-          };
-  
-          window.addEventListener('beforeunload', handleBeforeUnload);
-  
-          // Cleanup function to remove the event listener
-          return () => {
-              window.removeEventListener('beforeunload', handleBeforeUnload);
-          };
-      }, []);
-
+   
 
 
 

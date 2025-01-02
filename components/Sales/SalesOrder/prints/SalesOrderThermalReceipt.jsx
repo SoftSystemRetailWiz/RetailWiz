@@ -6,38 +6,23 @@ function SalesOrderThermalReceipt(){
   
       const rawtotal = localStorage.getItem('total');
       const total = JSON.parse(rawtotal);
-      console.log('total:', total);
+      
   
       const selectivekeys = ['item_desc', 'qty', 'rate'];
-    const header = data.length > 0
-    ? Object.keys(data[0])
+    const header = Object.keys(data[0])
     .filter((key)=> selectivekeys.includes(key))
     .sort((a,b)=> selectivekeys.indexOf(a)- selectivekeys.indexOf(b))
-    : 
-    [];
-  
+
       const headData =data[0]
-      console.log('headData:', headData);
+
   
-      useEffect(() => {
-          const handleBeforeUnload = () => {
-              localStorage.removeItem('salesOrderViewRef');
-              localStorage.removeItem('total');
-          };
-  
-          window.addEventListener('beforeunload', handleBeforeUnload);
-  
-          // Cleanup function to remove the event listener
-          return () => {
-              window.removeEventListener('beforeunload', handleBeforeUnload);
-          };
-      }, []);
+
 
 
 
 
   return (
-    <div className="container-fluid ms-0 my-2" style={{ width: '80mm', fontSize: '12px' }}>
+    <div className="container-fluid ms-0 my-2 printScreen" style={{ width: '80mm', fontSize: '12px' }}>
       <div className="card">
         <div className="card-header text-center">
           <h4 style={{ fontSize: '16px' }}>{headData['fld_brand']}</h4>

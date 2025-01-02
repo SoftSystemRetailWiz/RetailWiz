@@ -23,6 +23,7 @@ import PurchaseOrder from "./Purchase/PurchaseOrder/PurchaseOrder";
 import IncomeStatement from "./IncomeStatement";
 import InvoiceWiseProfit from "./Reports/Accounts/Invoice_Wise_Profit_Report";
 import ProfitInvoiceCategoryWise from "./Reports/Accounts/ProfitInvoiceCategoryWise";
+import { useNavigate } from 'react-router-dom';
 
 
 // Dynamic Icon Component
@@ -72,16 +73,46 @@ export default function Sidebar({ children }) {
   const isEmployeeDataForm= location.pathname==='/EmployeeDataForm'
   const isIncomeStatement= location.pathname === '/income_statement'
 
+  // login page
+  const isLoginPage= location.pathname === '/'
+  const navigate = useNavigate();
 
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const [islogout, setIsLogout] = useState(false);
+
 
   const toggleSidebar = () => setIsExpanded((prevState) => !prevState);
+
+   // For React Router v6
+
+   const handleLogout = async () => {
+    setIsLogout(true);
+
+    // Simulate a delay (2 seconds)
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    navigate('/');
+
+  }
   
 
   return (
     <li className="d-flex py-2 px-3 my-1">
       {/* Animated Sidebar */}
+      {islogout&&(
+        <motion.div 
+        initial={{ opacity: 0 }} // Start with a slightly transparent background
+        animate={{ opacity: 1 }} // Animate to full opacity
+        exit={{ opacity: 0 }} // Fade out when removed from the DOM
+        transition={{ duration: 0.8 }}
+        className="signout-message">
+          <div className="signout-message-content">
+            <img src={logo} />
+            <h2>Thanks for Using RetailWiz</h2>
+          </div>
+        </motion.div>
+      )}
       <motion.aside
         className={`sidebar text-dark position-fixed  p-2 ${isExpanded? 'overflow-auto bg-light  shadow-sm': ''} `}
         animate={{
@@ -119,7 +150,7 @@ export default function Sidebar({ children }) {
           </button>
         </div>
 
-        <SidebarContext.Provider value={{ isExpanded, setIsExpanded }}>
+        <SidebarContext.Provider value={{ isExpanded, setIsExpanded, handleLogout }}>
           <motion.ul
             className="list-unstyled mt-3"
             animate={{
@@ -277,7 +308,7 @@ export function SidebarItem({
   isDropdown = false,
   isSubDropdown = false,
 }) {
-  const { isExpanded,  setIsExpanded} = useContext(SidebarContext); 
+  const { isExpanded,  setIsExpanded, handleLogout} = useContext(SidebarContext); 
   const [isOpen, setIsOpen] = useState(false);
   const [OpenSublistIndex, setOpenSublistIndex]=useState(null)
   const width=window.innerWidth
@@ -293,11 +324,6 @@ export function SidebarItem({
     if (onClick) onClick();
   };
 
-  const handleItemClick = () => {
-    if (width/2 < 400) {
-      setIsExpanded(false);
-    }
-  };
 
   return (
     <>
@@ -318,6 +344,22 @@ export function SidebarItem({
     whileHover={{ scale: 1.05 }} // Slight zoom on hover
     whileTap={{ scale: 0.95 }} // Slight shrink on click
   >
+    {link === '/' ? 
+    (
+      <Link
+      style={{
+        color: active? "#ffff": 'black'
+      }} 
+      onClick={handleLogout}
+      >
+      {icon}
+      <span className="ms-3" 
+      >{text}</span>
+      {isDropdown && (
+        <DynamicIcons iconName={isOpen ? "ChevronUp" : "ChevronDown"} size={15} />
+      )}
+      </Link>
+    ):(
       <Link to={link}
       style={{
         color: active? "#ffff": 'black'
@@ -330,6 +372,8 @@ export function SidebarItem({
         <DynamicIcons iconName={isOpen ? "ChevronUp" : "ChevronDown"} size={15} />
       )}
       </Link>
+
+    )}
   </motion.ul>
 )}
 
@@ -356,6 +400,7 @@ export function SidebarItem({
       {item.nestedSubList ? (
         <>
           <DynamicIcons iconName={item.icon} size={18} />
+          <Link>
           <span
             className={`${isExpanded ? "ms-1" : "d-none"} hover:bg-primary`}
             style={{ color: "black" }}
@@ -371,6 +416,7 @@ export function SidebarItem({
               />
             )}
           </span>
+          </Link>
 
           {OpenSublistIndex === index && item.nestedSubList && (
             <motion.ul

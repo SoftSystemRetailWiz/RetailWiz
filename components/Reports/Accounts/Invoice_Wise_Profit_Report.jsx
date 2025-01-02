@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Send } from 'lucide-react';
 import { fetchData } from '../../utills/ApiRequest';
+import { use } from 'framer-motion/m';
+import Loader from '../../Loader/Loader';
 
 function  InvoiceWiseProfit() {
     const [activityData, setActivityData] = useState([]);
@@ -10,6 +12,7 @@ function  InvoiceWiseProfit() {
 
     const [total, setTotal]= useState()
 
+    const [isLoading, setIsLoading]= useState(false)
 
     const handleTotal=()=>{
         let total= 0
@@ -53,6 +56,7 @@ function  InvoiceWiseProfit() {
     const serv_id = localStorage.getItem('serv_id');
 
     const fetch_Data = async (st_date, ed_date) => {
+        setIsLoading(true)
         try {
             const result = await fetchData('profit_inv_get', [
                 { parameter: 'serv_id', value: serv_id },
@@ -70,6 +74,7 @@ function  InvoiceWiseProfit() {
         } catch (error) {
             console.error("Error fetching data:", error);
         }
+        setIsLoading(false)
     };
 
    
@@ -116,7 +121,7 @@ function  InvoiceWiseProfit() {
                             >
                                 <Send size={'16px'} />
                             </button>
-                            <div className="tooltip-text">Send</div>
+                            <div className="tooltip-text">Generate</div>
                         </div>
                     </div>
 
@@ -152,7 +157,19 @@ function  InvoiceWiseProfit() {
                                 </tr>
                             </thead>
                             <tbody>
-                              {filteredData && filteredData.length>0 ?
+                                {isLoading?
+                                
+                                (
+                                    <tr colspan='6'>
+                                        <td>
+                                            <Loader/>
+
+                                        </td>
+                                    </tr>
+                                )
+                                :
+                                (
+                                filteredData && filteredData.length>0 ?
                               (
                                 filteredData.map((item, index)=>(
                                   <tr key={index}>
@@ -167,14 +184,18 @@ function  InvoiceWiseProfit() {
                                 </tr>
                                   
                                 
-                                )))
+                                ))
+                            )
                               :
                               (
                                 <tr>
                                   <td>No Data Found</td>
                                 </tr>
                               )
-                              }
+                                )
+                            }
+                              
+                              
                             </tbody>
                         </table>
                     </div>

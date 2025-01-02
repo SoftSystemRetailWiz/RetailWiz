@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { XMLParser } from 'fast-xml-parser';
 import { useNavigate } from 'react-router-dom';
+import Loader from './Loader/Loader';
+
 
 function Login() {
   const [userId, setUserId] = useState('');
@@ -9,9 +11,11 @@ function Login() {
   const [authCode, setAuthCode] = useState('');
   const [loginError, setLoginError] = useState(false); // Track login error
   const [error, setError] = useState('');
+  const [loader, setLoader]=useState(false)
   const navigate= useNavigate()
 
   const handleLogin = async (e) => {
+    setLoader(true)
     e.preventDefault();
 
     // SOAP payload
@@ -142,8 +146,10 @@ function Login() {
               </button>
             </form>
 
-            {/* Show error message if loginError is true */}
-            {loginError && (
+            {loader?  (
+              <Loader/>
+            ):
+            (loginError && (
               <div className='d-flex justify-content-center'>
                 <div
                   style={{
@@ -157,7 +163,9 @@ function Login() {
                   <small>{error}</small> {/* Display dynamic error message */}
                 </div>
               </div>
-            )}
+            ))
+            }
+            
           </div>
         </div>
       </div>

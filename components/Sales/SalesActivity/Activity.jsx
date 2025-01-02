@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { FilePenLine, Printer, Send } from 'lucide-react';
 import { fetchData } from '../../utills/ApiRequest';
+import Loader from '../../Loader/Loader';
+import { tr } from 'date-fns/locale';
 
 function Activity() {
     const [activityData, setActivityData] = useState([]);
@@ -8,12 +10,7 @@ function Activity() {
     const [endDate, setEndDate] = useState('');
     const [search, setSearch] = useState('');
     const [invoiceViewRef, setInvoiceViewRef] = useState([]);
-    
-
-   
-
-
-    
+    const [loader, setLoader] = useState(false); // Initially set loader to false
 
     const handleStartDate = (e) => {
         setStartDate(e.target.value);
@@ -23,6 +20,7 @@ function Activity() {
         setEndDate(e.target.value);
     };
 
+    // Filter activityData based on the search term
     const filteredData = activityData.filter(
         (item) =>
             item.total_amt.toString().includes(search.toLowerCase()) ||
@@ -32,7 +30,9 @@ function Activity() {
 
     const serv_id = localStorage.getItem('serv_id');
 
+    // Fetch data function with loader set to true
     const fetch_Data = async (st_date, ed_date) => {
+        setLoader(true); // Set loader to true when fetching starts
         try {
             const result = await fetchData('inv_rep', [
                 { parameter: 'serv_id', value: serv_id },
@@ -42,15 +42,18 @@ function Activity() {
 
             if (result) {
                 const Data = JSON.parse(result);
-                setActivityData(Data);
+                setActivityData(Data); // Update activity data
             } else {
                 setActivityData([]);
             }
         } catch (error) {
             console.error("Error fetching data:", error);
+        } finally {
+            setLoader(false); // Hide loader once data fetching is complete
         }
     };
 
+    // Fetch invoice view data by invoice reference
     const fetch_Data_Invoise_view = async (serv_id, inv_ref) => {
         try {
             const result = await fetchData('invoice_view_ref', [
@@ -72,34 +75,30 @@ function Activity() {
         }
     };
 
+    // Selective keys for invoice view
     const selectivekeys = ['discount', 'rate', 'qty', 'item_desc_invoice'];
     const modlebody = invoiceViewRef.length > 0 ? Object.keys(invoiceViewRef[0]).filter((key) => selectivekeys.includes(key)).reverse() : [];
-
-  
-
-
-
 
     const headerData = invoiceViewRef.length > 0 ? invoiceViewRef[0] : [];
     console.log('headerData:', headerData);
 
-    const handleInvoiceView = (inv_ref,total) => {
+    // Handle invoice view action (print)
+    const handleInvoiceView = (inv_ref, total) => {
         fetch_Data_Invoise_view(serv_id, inv_ref);
-        
-        localStorage.setItem('a_total',JSON.stringify(total));
 
-        const url = '/sale/salesActivity/print'; // Replace with the desired URL
+        localStorage.setItem('a_total', JSON.stringify(total));
+
+        const url = '/sale/salesActivity/print'; // URL for printing
         window.open(url, '_blank', 'noopener,noreferrer');
     };
-
 
     return (
         <div id='SalesActivity' className="container-fluid mt-3 col-12 col-md-12 col-sm-12">
             <div className="row">
                 <div className="col-12 col-md-12 mb-1">
-                <span className="d-flex" style={{ marginLeft: "20px" }}>
-                <b>Sales &nbsp; / &nbsp; Sale Activity</b>
-                </span>
+                    <span className="d-flex" style={{ marginLeft: "20px" }}>
+                        <b>Sales &nbsp; / &nbsp; Sale Activity</b>
+                    </span>
                     <div className="d-flex gap-2 flex-column flex-md-row">
                         <div className='d-flex gap-2'>
                             <label htmlFor="startDate" className="d-flex" style={{ width: '120px', alignItems: 'center', height: '60px' }}>Start Date:</label>
@@ -131,7 +130,7 @@ function Activity() {
                             >
                                 <Send size={'16px'} />
                             </button>
-                            <div className="tooltip-text">Send</div>
+                            <div className="tooltip-text">Generate</div>
                         </div>
                     </div>
 
@@ -161,56 +160,59 @@ function Activity() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredData && filteredData.length > 0 ? (
-                                    filteredData.map((item, index) => (
-                                        <tr key={index}>
-                                            <td>{item.inv_ref}</td>
-                                            <td>{new Date(item.inv_date).toLocaleDateString('en-GB')}</td>
-                                            <td>{item.total_amt}</td>
-                                            <td className='d-flex gap-3'>
-                                                <div className='tooltip-container'>
-                                                    <button
-                                                        className="btn btn-outline-primary btn-sm"
-                                                    >
-                                                        <small>DO</small>
-                                                    </button>
-                                                    <div className="tooltip-text">DO</div>
-                                                </div>
-
-                                                <div className='tooltip-container'>
-                                                    <button
-                                                        className="btn btn-outline-danger btn-sm"
-                                                    >
-                                                        <FilePenLine size={'12px'} />
-                                                    </button>
-                                                    <div className="tooltip-text">Modify</div>
-                                                </div>
-
-                                                <div className='tooltip-container'>
-                                                    <button
-                                                        className="btn btn-outline-success btn-sm"
-                                                        onClick={() => handleInvoiceView(item.inv_ref, item.total_amt)} 
-                                                    >
-                                                        <Printer size={'16px'} />
-                                                    </button>
-                                                    <div className="tooltip-text">Print</div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))
-                                ) : (
+                                {loader ? (
                                     <tr>
-                                        <td colSpan="4">No data available</td>
+                                        <Loader />
                                     </tr>
+                                ) : (
+                                    filteredData && filteredData.length > 0 ? (
+                                        filteredData.map((item, index) => (
+                                            <tr key={index}>
+                                                <td>{item.inv_ref}</td>
+                                                <td>{new Date(item.inv_date).toLocaleDateString('en-GB')}</td>
+                                                <td>{item.total_amt}</td>
+                                                <td className='d-flex gap-3'>
+                                                    <div className='tooltip-container'>
+                                                        <button
+                                                            className="btn btn-outline-primary btn-sm"
+                                                        >
+                                                            <small>DO</small>
+                                                        </button>
+                                                        <div className="tooltip-text">DO</div>
+                                                    </div>
+
+                                                    <div className='tooltip-container'>
+                                                        <button
+                                                            className="btn btn-outline-danger btn-sm"
+                                                        >
+                                                            <FilePenLine size={'12px'} />
+                                                        </button>
+                                                        <div className="tooltip-text">Modify</div>
+                                                    </div>
+
+                                                    <div className='tooltip-container'>
+                                                        <button
+                                                            className="btn btn-outline-success btn-sm"
+                                                            onClick={() => handleInvoiceView(item.inv_ref, item.total_amt)}
+                                                        >
+                                                            <Printer size={'16px'} />
+                                                        </button>
+                                                        <div className="tooltip-text">Print</div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="4">No data available</td>
+                                        </tr>
+                                    )
                                 )}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
-
-           
         </div>
     );
 }
